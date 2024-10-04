@@ -1,9 +1,14 @@
 Nome provisório do projeto:
 Event Master
+
 Membros da equipe (Papel):
+
 -Victor Yuji Yano (Full) [2022043337]
+
 -Julio Assis Souza Amorim (Full) [2022043590]
+
 -Marcos Daniel Souza Netto (Full) [2022069492]
+
 -Gustavo Chaves Ferreira (Full) [2022043329]
 
 Objetivo geral: criar um aplicativo (web ou mobile, fica com vocês) de agendamento e gerenciamento dinâmico, público e privado, de eventos e rotinas.
