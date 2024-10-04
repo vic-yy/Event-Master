@@ -11,7 +11,7 @@ Membros da equipe (Papel):
 
 -Gustavo Chaves Ferreira (Full) [2022043329]
 
-Objetivo geral: criar um aplicativo (web ou mobile, fica com vocês) de agendamento e gerenciamento dinâmico, público e privado, de eventos e rotinas.
+Objetivo geral: criar um aplicativo de agendamento e gerenciamento dinâmico, público e privado, de eventos e rotinas.
 
 Backlog do produto:
 1. Criar, editar, deletar e listar usuários.
