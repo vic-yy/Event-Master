@@ -12,6 +12,7 @@ Membros da equipe (Papel):
 -Gustavo Chaves Ferreira (Full) [2022043329]
 
 Objetivo geral: criar um aplicativo (web ou mobile, fica com vocês) de agendamento e gerenciamento dinâmico, público e privado, de eventos e rotinas.
+
 Backlog do produto:
 1. Criar, editar, deletar e listar usuários.
 2. Criar, editar, deletar, listar e participar de eventos.
@@ -26,6 +27,7 @@ Backlog do produto:
 11. Buscar mensagens em uma ou todas as conversas privadas e eventos.
 
 Faremos as quatro primeiras no nosso primeiro sprint.
+
 Backlog do sprint:
 1. Criar, editar, deletar e listar usuários.
 2. Criar, editar, deletar, listar e participar de eventos.
@@ -33,6 +35,9 @@ Backlog do sprint:
 4. Promover e demitir administradores, expulsar e readmitir usuários.
 
 Tecnologias
+
 -Linguagens: Typescript.
+
 -Frameworks: Node.js (Back-end), React (Front-end).
+
 -Banco de Dados: Prisma, MySQL.
