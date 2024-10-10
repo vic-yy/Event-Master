@@ -16,10 +16,10 @@ export function emptyInputValidator(body: any) {
   }
 
 export function invalidInputValidator(body: any) {
-    if (!isEmailValid(body.email)) {
+    if (body.email && !isEmailValid(body.email)) {
       throw new InvalidParamError('invalidFormat', 'email'); 
     }
-    if (!isPasswordValid(body.password)) {
+    if (body.password && !isPasswordValid(body.password)) {
       throw new InvalidParamError('invalidFormat', 'password'); 
     }
 }
