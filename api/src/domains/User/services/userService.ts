@@ -20,7 +20,7 @@ class UserService {
   async createUser(body: {email: string, name: string, password: string}) {
     const sameUser = await prisma.user.findUnique({where: {email: body.email}});
     if(sameUser){
-        throw new Error('userAlreadyExists');
+        throw new QueryError('userAlreadyExists');
     }
     emptyInputValidator(body);
     invalidInputValidator(body);
@@ -36,17 +36,23 @@ class UserService {
     return user;
   }
 
-  async getUsers() {
+  async getAllUsers() {
     const users = await prisma.user.findMany();
     return users;
   }
 
-  async updateUser(userId: number, body: {email: string, name: string, password: string}) {
+  async updateUser(userId: number, body: {email?: string, name?: string, password?: string}) {
     const user = await prisma.user.findUnique({where: {userId}});
     if(!user){
         throw new QueryError('userNotFound');
     }
-    emptyInputValidator(body);
+    if(body.email) {
+      const sameUser = await prisma.user.findUnique({where: {email: body.email}});
+      if(sameUser && sameUser.userId !== userId){
+          throw new QueryError('userAlreadyExists');
+      }
+    }
+
     invalidInputValidator(body);
     if(body.password) {
       throw new PasswordError('routeNotAllowed');
@@ -64,13 +70,15 @@ class UserService {
     return user;
   }
 
-  async deleteUserByEmail(email: string) {
-    const user = await prisma.user.findUnique({where: {email}});
+  async deleteUserByEmail(body: {email: string}) {
+    const user = await prisma.user.findUnique({where: {email: body.email}});
     if(!user){
         throw new QueryError('userNotFound');
     }
-    await prisma.user.delete({where: {email}});
+    await prisma.user.delete({where: {email: body.email}});
     return user;
   }
 
 }
+
+export default new UserService();
