@@ -47,7 +47,8 @@ router.put('/update/:userId', async (req: Request, res: Response, next: NextFunc
 
 router.put('/updatePassword', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = await userService.updatePassword(req.body);
+        const { email, password } = req.body;
+        const user = await userService.updatePassword(email, password);
         res.status(statusCodes.SUCCESS).json("Password updated successfully");
     } catch (error) {
         next(error);
