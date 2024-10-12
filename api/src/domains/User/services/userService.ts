@@ -3,6 +3,8 @@ import prisma from '../../../../database/prismaClient';
 import { QueryError} from '../../../../errors/QueryError';
 import { PasswordError } from '../../../../errors/PasswordError';
 import { emptyInputValidator, invalidInputValidator } from '../../../middlewares/InputValidator';
+import bcrypt from 'bcrypt';
+
 class UserService {
   async protectUser(body: Partial<User>) {
     const user = await prisma.user.findUnique({where: {userId: body.userId}});
@@ -17,15 +19,22 @@ class UserService {
     return protectedUser;
   }
 
+  async encryptPassword(password: string) {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    return hashedPassword;
+  }
+
   async createUser(body: {email: string, name: string, password: string}) {
     const sameUser = await prisma.user.findUnique({where: {email: body.email}});
     if(sameUser){
         throw new QueryError('userAlreadyExists');
     }
+    const encryptedPassword = await this.encryptPassword(body.password);
     emptyInputValidator(body);
     invalidInputValidator(body);
-    const user = await prisma.user.create({data: {...body, role: 'user'}});
-    return user;
+    const newUser = await prisma.user.create({data: {...body, password: encryptedPassword ,role: 'user'}});
+    return newUser;
   }
 
   async getUserById(userId: number) {
@@ -59,6 +68,17 @@ class UserService {
     }
     const updatedUser = await prisma.user.update({where: {userId}, data: body});
     return updatedUser;
+  }
+
+  async updatePassword(body: {email: string, newPassword: string}) {
+    const user = await prisma.user.findUnique({where: {email: body.email}});
+    if(!user){
+        throw new QueryError('userNotFound');
+    }
+    invalidInputValidator({password: body.newPassword});
+    const encryptedPassword = await this.encryptPassword(body.newPassword);
+    await prisma.user.update({where: {email: body.email}, data: {password: encryptedPassword}});
+    return user;
   }
 
   async deleteUserById(userId: number) {
