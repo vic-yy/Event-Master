@@ -70,14 +70,14 @@ class UserService {
     return updatedUser;
   }
 
-  async updatePassword(body: {email: string, newPassword: string}) {
-    const user = await prisma.user.findUnique({where: {email: body.email}});
+  async updatePassword(email: string, newPassword: string) {
+    const user = await prisma.user.findUnique({where: {email: email}});
     if(!user){
         throw new QueryError('userNotFound');
     }
-    invalidInputValidator({password: body.newPassword});
-    const encryptedPassword = await this.encryptPassword(body.newPassword);
-    await prisma.user.update({where: {email: body.email}, data: {password: encryptedPassword}});
+    invalidInputValidator({password: newPassword});
+    const encryptedPassword = await this.encryptPassword(newPassword);
+    await prisma.user.update({where: {email: email}, data: {password: encryptedPassword}});
     return user;
   }
 
