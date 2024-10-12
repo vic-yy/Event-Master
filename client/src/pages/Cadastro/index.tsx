@@ -6,6 +6,9 @@ import {
   TextField, 
   Typography 
 } from '@mui/material';
+import { Link } from 'react-router-dom';
+
+import Login from '../Login';
 import { useState } from 'react';
 import './style.css'; 
 
@@ -84,8 +87,14 @@ export default function Cadastro() {
                     Criar Conta
                 </Button>
 
-                <Typography variant="caption" className="login-link">
+                <Typography variant="caption" className="login-link" >
+                  <Link className='login-link' to="/login" style={
+                    { 
+                      textDecoration:'none', color: '#000'
+                    }
+                    }>
                     Já possui uma conta? Entre
+                  </Link>
                 </Typography>
               </Box>
         </Box>
