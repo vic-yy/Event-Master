@@ -36,6 +36,16 @@ router.get('/getById/:userId', async (req: Request, res: Response, next: NextFun
     }
 });
 
+router.get('/getByEmail', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = await userService.getUserByEmail(req.body.email);
+        const protectedUser = await userService.protectUser(user);
+        res.status(statusCodes.SUCCESS).send(protectedUser);
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.put('/update/:userId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await userService.updateUser(Number(req.params.userId), req.body);
