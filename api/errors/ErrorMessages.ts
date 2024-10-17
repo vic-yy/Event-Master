@@ -11,7 +11,8 @@ export const ErrorMessages = {
       accountLocked: 'The account is locked due to too many failed login attempts.'
     },
     NotAuthorizedError: {
-      notAuthorized: 'You are not authorized to perform this action.'
+      customMessage: (message: string) => message,
+      notAuthorized: (_:string) => 'You are not authorized to perform this action.'
     },
     PermissionError: {
       permissionDenied: 'You do not have the necessary permissions.'

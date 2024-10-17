@@ -1,8 +1,6 @@
 import { Event } from '@prisma/client';
 import prisma from '../../../../database/prismaClient';
 import { QueryError } from '../../../../errors/QueryError';
-import { emptyInputValidator, invalidInputValidator } from '../../../middlewares/InputValidator';
-
 
 class EventService {
     async createEvent(body: {title: string, description: string, location: string, date: Date}) {
