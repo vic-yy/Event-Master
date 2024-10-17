@@ -19,6 +19,8 @@ export const ErrorMessages = {
     QueryError: {
       userNotFound: 'User not found.',
       userAlreadyExists: 'User already exists.',
+      eventNotFound: 'User not found.',
+      eventAlreadyExists: 'User already exists.',
       queryFailed: 'There was an error while executing the query.'
     },
     TokenError: {
