@@ -35,8 +35,17 @@ class UserService {
     const encryptedPassword = await this.encryptPassword(body.password);
     emptyInputValidator(body);
     invalidInputValidator(body);
-    const newUser = await prisma.user.create({data: {...body, password: encryptedPassword ,role: 'user'}});
+    const newUser = await prisma.user.create({data: {...body, password: encryptedPassword, role: 'user'}});
     return newUser;
+  }
+
+  async updateUserRole(userId: number, role: string) {
+    const user = await prisma.user.findUnique({where: {userId}});
+    if(!user){
+        throw new QueryError('userNotFound');
+    }
+    await prisma.user.update({where: {userId}, data: {role: role}});
+    return user;
   }
 
   async getUserById(userId: number) {
