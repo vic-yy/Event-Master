@@ -2,6 +2,8 @@ import { NextFunction, Request, Response, Router } from 'express';
 import statusCodes from '../../../../utils/constants/statusCode';
 import userService from '../services/userService';
 import { loginMiddleware, notLoggedInMiddleware, logoutMiddleware, verifyJWT } from '../../../middlewares/auth-middlewares';
+import { checkRole } from '../../../middlewares/checkRole';
+import { Role } from '../../../../utils/constants/role';
 
 const router = Router();
 router.post('/login', notLoggedInMiddleware, loginMiddleware);
@@ -59,7 +61,7 @@ router.put('/update/:userId', async (req: Request, res: Response, next: NextFunc
     }
 });
 
-router.put('/updateRole/:userId', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/updateRole/:userId',verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await userService.updateUserRole(Number(req.params.userId), req.body.role);
         res.status(statusCodes.SUCCESS).json("Role updated successfully");

@@ -8,7 +8,8 @@ export const ErrorMessages = {
     },
     LoginError: {
       loginFailed: 'Login attempt failed. Please check your credentials.',
-      accountLocked: 'The account is locked due to too many failed login attempts.'
+      accountLocked: 'The account is locked due to too many failed login attempts.',
+      alreadyLoggedIn: 'You are already logged in.',
     },
     NotAuthorizedError: {
       notAuthorized: 'You are not authorized to perform this action.'
