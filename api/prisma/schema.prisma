@@ -18,6 +18,16 @@ model User {
   participants    	Participant[]
 }
 
+model Event {
+  eventId               Int      @id @default(autoincrement())
+  title                 String
+  description           String
+  create_at             DateTime @default(now())
+  location              String
+  date                  DateTime  
+  participants    	Participant[]
+}
+
 model Participant {
   participantId   Int       @id @default(autoincrement())
   userId          Int
