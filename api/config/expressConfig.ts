@@ -1,7 +1,6 @@
 import cors, { CorsOptions } from 'cors';
 import dotenv from 'dotenv';
 import express, { Express } from 'express';
-import userRouter from '../src/domains/User/controllers/userIndex';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
@@ -18,7 +17,5 @@ app.use(express.urlencoded({
     extended: true
 }));
 app.use(cookieParser());
-
-app.use('/api/user', userRouter);
 
 export default app;
