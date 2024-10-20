@@ -21,7 +21,7 @@ class ParticipantService {
     return protectedParticipant;
   }
 
-  async createParticipant(body: {userId: number, userEvent: number}) {
+  async createParticipant(body: {userId: number, eventId: number}) {
     const sameParticipant = await prisma.participant.findUnique({where: {userId_eventId: {userId: body.userId, eventId: body.eventId}}});
     if(sameParticipant){
         throw new QueryError('participantAlreadyExists');
