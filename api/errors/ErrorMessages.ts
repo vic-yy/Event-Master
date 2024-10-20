@@ -11,7 +11,8 @@ export const ErrorMessages = {
       accountLocked: 'The account is locked due to too many failed login attempts.'
     },
     NotAuthorizedError: {
-      notAuthorized: 'You are not authorized to perform this action.'
+      customMessage: (message: string) => message,
+      notAuthorized: (_:string) => 'You are not authorized to perform this action.'
     },
     PermissionError: {
       permissionDenied: 'You do not have the necessary permissions.'
@@ -19,6 +20,8 @@ export const ErrorMessages = {
     QueryError: {
       userNotFound: 'User not found.',
       userAlreadyExists: 'User already exists.',
+      eventNotFound: 'User not found.',
+      eventAlreadyExists: 'User already exists.',
       queryFailed: 'There was an error while executing the query.'
     },
     TokenError: {
