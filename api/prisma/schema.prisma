@@ -15,4 +15,16 @@ model User {
   role            String
   token           String?
   tokenExpiration DateTime?
+  participants    	Participant[]
+}
+
+model Participant {
+  participantId   Int       @id @default(autoincrement())
+  userId          Int
+  eventId         Int
+  role            String
+
+  user            User         @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  event           Event        @relation(fields: [eventId], references: [eventId], onDelete: Cascade)
+  @@unique([userId, eventId])
 }
