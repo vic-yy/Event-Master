@@ -1,7 +1,193 @@
-export default function Login(){
+import { 
+    Box, 
+    Button, 
+    Checkbox, 
+    FormControlLabel, 
+    TextField, 
+    Typography,
+    Grid
+} from '@mui/material';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+    
+  export default function Login() {
+    const [showPassword, setShowPassword] = useState(false);
+
     return (
-        <h1> 
-            You are at Login Page!
-        </h1>
-    )
-}
+        <Grid className="main-grid"
+            container
+            sx={{ 
+                minHeight: '100vh',
+                position: 'relative'
+            }}  
+            alignItems="center"       
+            justifyContent="center"         
+            >
+
+            <Grid className='left-grid'
+                item 
+                xs={12} 
+                md={6} 
+                sx={{
+                    height: '100vh',
+                    width: '100vw',
+                    display: 'flex',
+                    backgroundImage: 'url("/src/assets/peopletalking.png")',
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'top',
+                }}
+                >
+
+                <Box className="main-title-box">
+
+                    <Typography className="main-title"
+                        variant="h3" 
+                        sx={{ 
+                            marginTop: '70px',
+                            marginLeft: '70px',
+                            color: 'white',
+                            fontWeight: 'bold',
+                            fontFamily: 'Times New Roman, serif'
+                        }}
+                        >
+                        Event Master
+                    </Typography>
+                            
+                    <Typography className='main-title-subheader' 
+                        variant="h6" 
+                        sx={{ 
+                            marginLeft: '70px',
+                            color: 'white'                        
+                        }}
+                        >
+                        Um aplicativo para gerenciar todos os seus eventos e lembretes!
+                    </Typography>
+
+                </Box>
+
+            </Grid>
+            
+            <Grid className='right-grid'
+                item
+                xs={12}
+                md={6}
+                sx={{ 
+                    flexDirection: 'row'    
+                }} 
+                >
+                
+                <Box className="form-box"
+                    sx={{
+                        marginLeft: '80px',
+                        marginRight: '80px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                    }}
+                    >
+                    
+                    <Box className="login-logo"
+                        component="img" 
+                        src="/src/assets/logo.jpeg"
+                        sx={{
+                            width: '100px', 
+                            height: '100px' 
+                        }}
+                        />
+                    
+                    <Typography className="login-header"
+                        variant="h4"
+                        sx={{ 
+                            fontWeight: 'bold',
+                            marginBottom: '30px'
+                        }}
+                        >
+                        Login
+                    </Typography>
+                    
+                    <Box className="user-data"
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            gap: '25px',
+                            paddingBottom: '30px'
+                        }}>
+                            
+                        <TextField className="email-box" label="Email" variant="outlined" fullWidth />
+
+                        <TextField className="password-box"
+                            label="Senha" 
+                            variant="outlined"
+                            type={showPassword ? 'text' : 'password'} 
+                            fullWidth
+                            />
+
+                        <FormControlLabel className="show-password-button"
+                            sx={{
+                                color: '#666666',
+                                justifyContent: 'flex-start'
+                            }}
+                            control={
+                                <Checkbox className="toggle-password-visibilty"
+                                    checked={showPassword}
+                                    onChange={() => setShowPassword(!showPassword)}
+                                    sx={{ 
+                                        color: 'black', 
+                                        '&.Mui-checked': { color: 'black' } 
+                                    }}
+                                    />
+                            } 
+                            label="Mostrar senha" 
+                            />
+
+                    </Box>
+
+                    <Box className="submit-final"
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            gap: '15px'
+                        }}
+                        >
+                    
+                        <Button className="sign-up-button"
+                            variant="contained"
+                            type='submit'
+                            sx={{
+                                borderRadius: '50px',
+                                padding: '20px 50px',
+                                fontWeight: 'bold',
+                                fontSize: '1rem',
+                                backgroundColor: '#C4C4C4',
+                                '&:hover': {
+                                    backgroundColor: '#515151',
+                                }
+                            }}
+                            >
+                            Entrar
+                        </Button>
+
+                        <Typography className="sign-up-button-caption" variant="caption">
+                            <Link className="link-to-sign-up-page"
+                                to="/cadastro"
+                                style={{ 
+                                    textDecoration:'none', color: '#000'
+                                }}
+                                >
+                            Ainda não possui uma conta? Cadastre-se agora
+                            </Link>
+                        </Typography>
+                    
+                    </Box>
+
+                </Box>                
+            
+            </Grid>
+            
+        </Grid>
+    );
+  }
