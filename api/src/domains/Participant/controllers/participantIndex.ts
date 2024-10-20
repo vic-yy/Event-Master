@@ -44,7 +44,7 @@ router.get('/getById/:participantId', async (req: Request, res: Response, next: 
 
 router.get('/getByUserIdEventId', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const participant = await participantService.getParticipantByEmail(Number(req.body.userId), Number(req.body.eventId));
+        const participant = await participantService.getParticipantByUserIdEventId(Number(req.body.userId), Number(req.body.eventId));
         const protectedParticipant = await participantService.protectParticipant(participant);
         res.status(statusCodes.SUCCESS).send(protectedParticipant);
     } catch (error) {
@@ -82,7 +82,7 @@ router.delete('/delete/:participantId', async (req: Request, res: Response, next
 
 router.delete('/deleteByUserIdEventId', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const participant = await participantService.deleteParticipantByEmail(req.body);
+        const participant = await participantService.deleteParticipantByUserIdEventId(req.body);
         res.status(statusCodes.SUCCESS).send("Participant deleted successfully.");
     } catch (error) {
         next(error);
