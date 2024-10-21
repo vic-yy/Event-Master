@@ -6,9 +6,6 @@ import { checkRole } from '../../../middlewares/checkRole';
 import { Role } from '../../../../utils/constants/role';
 
 const router = Router();
-router.post('/login', notLoggedInMiddleware, loginMiddleware);
-
-router.post('/logout', logoutMiddleware);
 
 router.post('/create', async (req: Request, res: Response, next: NextFunction) => {
     try {
