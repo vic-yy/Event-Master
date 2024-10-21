@@ -16,3 +16,12 @@ model User {
   token           String?
   tokenExpiration DateTime?
 }
+
+model Event {
+  eventId               Int      @id @default(autoincrement())
+  title                 String
+  description           String
+  create_at             DateTime @default(now())
+  location              String
+  date                  DateTime  
+}
