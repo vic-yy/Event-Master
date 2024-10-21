@@ -6,8 +6,6 @@ services:
     container_name: mysql_eventmaster
     ports:
       - "3308:3306" 
-    expose:
-      - 3306
     volumes:
       - eventmaster_db:/var/lib/mysql
     environment:
@@ -15,6 +13,7 @@ services:
       - MYSQL_DATABASE=eventmaster
       - MYSQL_USER=user
       - MYSQL_PASSWORD=pwd
+    command: --default-authentication-plugin=mysql_native_password
 
 volumes:
   eventmaster_db:
