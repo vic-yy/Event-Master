@@ -54,11 +54,14 @@ export default function Cadastro() {
     <Box component="form" className="container" onSubmit={handleSubmit}>
         <Box className="form-container">
           <Box className="form">
-              <Box className="circle"></Box>
-              <Typography variant="h4" className="form-header">
-                  Cadastro
-              </Typography>
-
+              <Box
+                sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}
+              >
+                <Box className="circle"></Box>
+                <Typography variant="h4" className="form-header">
+                    Cadastro
+                </Typography>
+              </Box>
               <Box className="form-fields">
                   <Box>
                     <Typography variant="inherit" className="subheader">Nome: </Typography>

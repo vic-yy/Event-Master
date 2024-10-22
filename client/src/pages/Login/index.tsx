@@ -48,7 +48,6 @@ import { Link } from 'react-router-dom';
                             marginLeft: '70px',
                             color: 'white',
                             fontWeight: 'bold',
-                            fontFamily: 'Times New Roman, serif'
                         }}
                         >
                         Event Master
@@ -86,7 +85,9 @@ import { Link } from 'react-router-dom';
                         justifyContent: 'space-between',
                     }}
                     >
-                    
+                    <Box
+                        sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}
+                    >
                     <Box className="login-logo"
                         component="img" 
                         src="/src/assets/logo.jpeg"
@@ -98,14 +99,15 @@ import { Link } from 'react-router-dom';
                     
                     <Typography className="login-header"
                         variant="h4"
-                        sx={{ 
-                            fontWeight: 'bold',
+                        sx={{
+                            color: '#515151',
                             marginBottom: '30px'
                         }}
                         >
                         Login
                     </Typography>
-                    
+                    </Box>
+
                     <Box className="user-data"
                         sx={{
                             display: 'flex',
