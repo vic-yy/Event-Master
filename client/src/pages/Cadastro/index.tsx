@@ -53,59 +53,48 @@ export default function Cadastro() {
   }
   return (
     <Box component="form" className="container" onSubmit={handleSubmit}>
-      <Box className="form-container">
-        <Box className="form">
-          <Box className="circle"></Box>
-          <Typography variant="h4" className="form-header">
-            Cadastro
-          </Typography>
-
-          <Box className="form-fields">
-            <Box>
-              <Box className="cluster">
-                <TextField
-                  label="Primeiro nome"
-                  variant="outlined"
-                  name="firstName"
-                  fullWidth
-                />
-                <TextField
-                  label="Último nome"
-                  variant="outlined"
-                  name="lastName"
-                  fullWidth
-                />
+        <Box className="form-container">
+          <Box className="form">
+              <Box
+                sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}
+              >
+                <Box className="circle"></Box>
+                <Typography variant="h4" className="form-header">
+                    Cadastro
+                </Typography>
               </Box>
-            </Box>
-            <TextField
-              label="Email"
-              variant="outlined"
-              type="email"
-              name="email"
-              fullWidth
-            />
-
-            <Box>
-              <Box className="cluster">
-                <TextField
-                  label="Senha"
-                  variant="outlined"
-                  type={showPassword ? "text" : "password"}
-                  fullWidth
-                  name="password"
-                />
-                <TextField
-                  label="Confirme sua senha"
-                  variant="outlined"
-                  type={showPassword ? "text" : "password"}
-                  fullWidth
-                  name="passwordConfirm"
-                />
-              </Box>
-            </Box>
-            <Typography variant="body2" className="password-hint">
-              Use 8 ou mais caracteres incluindo letras e números
-            </Typography>
+              <Box className="form-fields">
+                  <Box>
+                    <Typography variant="inherit" className="subheader">Nome: </Typography>
+                    <Box className="cluster">
+                      <TextField label="Primeiro nome" variant="outlined" name="firstName" fullWidth />
+                      <TextField label="Último nome" variant="outlined" name="lastName" fullWidth />
+                    </Box>
+                  </Box>
+                  <TextField label="Email" variant="outlined" type="email" name="email" fullWidth />
+                  
+                  <Box>
+                    <Typography variant="inherit" className="subheader">Senha: </Typography>
+                    <Box className="cluster">
+                      <TextField 
+                          label="Senha" 
+                          variant="outlined" 
+                          type={showPassword ? 'text' : 'password'} 
+                          fullWidth 
+                          name = "password"
+                      /> 
+                      <TextField 
+                          label="Confirme sua senha" 
+                          variant="outlined" 
+                          type={showPassword ? 'text' : 'password'} 
+                          fullWidth 
+                          name= "passwordConfirm"
+                      />
+                    </Box>
+                  </Box>
+                  <Typography variant="body2" className="password-hint">
+                      Use 8 ou mais caracteres incluindo letras e números
+                  </Typography>
 
             <FormControlLabel
               id="show-password"

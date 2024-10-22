@@ -77,6 +77,8 @@
 /* Form header styling */
 .form-header {
     font-size: 1.5rem;
+    /* margin-bottom: 50px; */
+    /* padding-bottom: 50px; */
     font-weight: bolder;
     color: #515151;
 }
