@@ -51,7 +51,7 @@ Backlog do sprint:
    
    2.4. Criar interface de visualização de eventos (individual, com nome, descrição, datas e participantes). [Marcos]
    
-   2.5. Criar interface de criação de eventos. [Victor]
+   2.5. Criar interface de criação de eventos. [Julio]
    
    2.6. Criar interface de edição de eventos (editar informações, deletar ou sair do evento). [Marcos]
    
