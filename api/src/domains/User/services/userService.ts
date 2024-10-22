@@ -4,6 +4,8 @@ import { QueryError} from '../../../../errors/QueryError';
 import { PasswordError } from '../../../../errors/PasswordError';
 import { emptyInputValidator, invalidInputValidator } from '../../../middlewares/InputValidator';
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
+import { TokenError } from '../../../../errors/TokenError';
 
 class UserService {
   async protectUser(body: Partial<User>) {
@@ -33,12 +35,29 @@ class UserService {
     const encryptedPassword = await this.encryptPassword(body.password);
     emptyInputValidator(body);
     invalidInputValidator(body);
-    const newUser = await prisma.user.create({data: {...body, password: encryptedPassword ,role: 'user'}});
+    const newUser = await prisma.user.create({data: {...body, password: encryptedPassword, role: 'user'}});
     return newUser;
+  }
+
+  async updateUserRole(userId: number, role: string) {
+    const user = await prisma.user.findUnique({where: {userId}});
+    if(!user){
+        throw new QueryError('userNotFound');
+    }
+    await prisma.user.update({where: {userId}, data: {role: role}});
+    return user;
   }
 
   async getUserById(userId: number) {
     const user = await prisma.user.findUnique({where: {userId}});
+    if(!user){
+        throw new QueryError('userNotFound');
+    }
+    return user;
+  }
+
+  async getUserByEmail(email: string) {
+    const user = await prisma.user.findUnique({where: {email}});
     if(!user){
         throw new QueryError('userNotFound');
     }
@@ -99,6 +118,46 @@ class UserService {
     return user;
   }
 
-}
+  async createToken(email: string) {
+    const user = await prisma.user.findUnique({where: {email: email}});
+    if(!user){
+        throw new QueryError('userNotFound');
+    }
 
+    const token = crypto.randomBytes(20).toString('hex').toString();
+    const date = new Date();
+    date.setHours(date.getHours() + 1);
+
+
+    await prisma.user.update({
+      where: { 
+        email: email,
+      },
+      data: {
+        token: token,
+        tokenExpiration: date,
+      }
+    });
+
+    const info = {
+      email: email,
+      token: token,
+    };
+
+
+    return token;
+  }
+
+  async validateToken(email: string, token: string, passowrd: string) {
+    const user = await prisma.user.findUnique({where: {email: email}});
+    const timeNow = new Date();
+    if((user?.token != token)){
+      throw new TokenError('invalidToken');
+    }
+    if(user?.tokenExpiration != null && user.tokenExpiration < timeNow){
+      throw new TokenError('expiredToken');
+    }
+    return;
+  }
+}
 export default new UserService();

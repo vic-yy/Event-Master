@@ -1,8 +1,14 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import statusCodes from '../../../../utils/constants/statusCode';
 import userService from '../services/userService';
+import { loginMiddleware, notLoggedInMiddleware, logoutMiddleware, verifyJWT } from '../../../middlewares/auth-middlewares';
+import { checkRole } from '../../../middlewares/checkRole';
+import { Role } from '../../../../utils/constants/role';
 
 const router = Router();
+router.post('/login', notLoggedInMiddleware, loginMiddleware);
+
+router.post('/logout', logoutMiddleware);
 
 router.post('/create', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -36,10 +42,29 @@ router.get('/getById/:userId', async (req: Request, res: Response, next: NextFun
     }
 });
 
+router.get('/getByEmail', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = await userService.getUserByEmail(req.body.email);
+        const protectedUser = await userService.protectUser(user);
+        res.status(statusCodes.SUCCESS).send(protectedUser);
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.put('/update/:userId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await userService.updateUser(Number(req.params.userId), req.body);
         res.status(statusCodes.SUCCESS).json("User updated successfully");
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.put('/updateRole/:userId',verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = await userService.updateUserRole(Number(req.params.userId), req.body.role);
+        res.status(statusCodes.SUCCESS).json("Role updated successfully");
     } catch (error) {
         next(error);
     }
