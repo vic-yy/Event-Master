@@ -66,7 +66,6 @@ model Event_Group {
   event_groupId  Int     @id @default(autoincrement())
   eventId        Int
   groupId        Int
-  role           String
 
   event        Event          @relation(fields: [eventId], references: [eventId], onDelete: Cascade)
   group        Group          @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
