@@ -2,8 +2,6 @@ import { NextFunction, Request, Response, Router } from 'express';
 import statusCodes from '../../../../utils/constants/statusCode';
 import eventGroupService from '../services/eventGroupService';
 import { loginMiddleware, notLoggedInMiddleware, logoutMiddleware, verifyJWT } from '../../../middlewares/auth-middlewares';
-import { checkRole } from '../../../middlewares/checkRole';
-import { Role } from '../../../../utils/constants/participantRole';
 
 const router = Router();
 
@@ -77,15 +75,6 @@ router.put('/update/:event_groupId', async (req: Request, res: Response, next: N
     try {
         const event_group = await eventGroupService.updateEventGroup(Number(req.params.event_groupId), req.body);
         res.status(statusCodes.SUCCESS).json("Event-Group updated successfully");
-    } catch (error) {
-        next(error);
-    }
-});
-
-router.put('/updateRole/:event_groupId', async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const event_group = await eventGroupService.updateEventGroupRole(Number(req.params.event_groupId), req.body.role);
-        res.status(statusCodes.SUCCESS).json("Role updated successfully");
     } catch (error) {
         next(error);
     }
