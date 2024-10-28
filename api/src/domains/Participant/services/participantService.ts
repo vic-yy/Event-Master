@@ -47,6 +47,22 @@ class ParticipantService {
     return participant;
   }
 
+  async getParticipantByUserId(userId: number) {
+    const participant = await prisma.participant.findUnique({where: {userId}});
+    if(!participant){
+        throw new QueryError('participantNotFound');
+    }
+    return participant;
+  }
+
+  async getParticipantByEventId(eventId: number) {
+    const participant = await prisma.participant.findUnique({where: {eventId}});
+    if(!participant){
+        throw new QueryError('participantNotFound');
+    }
+    return participant;
+  }
+
   async getParticipantByUserIdEventId(userId: number, eventId: number) {
     const participant = await prisma.participant.findUnique({where: {userId_eventId: {userId, eventId}}});
     if(!participant){
@@ -77,6 +93,33 @@ class ParticipantService {
 
   async deleteParticipantById(participantId: number) {
     const participant = await prisma.participant.findUnique({where: {participantId}});
+    if(!participant){
+        throw new QueryError('participantNotFound');
+    }
+    await prisma.participant.delete({where: {participantId}});
+    return participant;
+  }
+
+  async deleteParticipantByUserId(userId: number) {
+    const participant = await prisma.participant.findUnique({where: {userId}});
+    if(!participant){
+        throw new QueryError('participantNotFound');
+    }
+    await prisma.participant.delete({where: {userId}});
+    return participant;
+  }
+
+  async deleteParticipantByEventId(eventId: number) {
+    const participant = await prisma.participant.findUnique({where: {eventId}});
+    if(!participant){
+        throw new QueryError('participantNotFound');
+    }
+    await prisma.participant.delete({where: {eventId}});
+    return participant;
+  }
+
+  async deleteParticipantByEmail(body: {email: string}) {
+    const participant = await prisma.participant.findUnique({where: {email: body.email}});
     if(!participant){
         throw new QueryError('participantNotFound');
     }
