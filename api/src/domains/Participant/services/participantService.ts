@@ -84,12 +84,12 @@ class ParticipantService {
     return participant;
   }
 
-  async deleteParticipantByUserIdEventId(body: {userId: number, eventId: number}) {
-    const participant = await prisma.participant.findUnique({where: {userId_eventId: {userId: body.userId, eventId: body.eventId}}});
+  async deleteParticipantByUserIdEventId(userId: number, eventId: number) {
+    const participant = await prisma.participant.findUnique({where: {userId_eventId: {userId, eventId}}});
     if(!participant){
         throw new QueryError('participantNotFound');
     }
-    await prisma.participant.delete({where: {userId_eventId: {userId: body.userId, eventId: body.eventId}}});
+    await prisma.participant.delete({where: {userId_eventId: {userId, eventId}}});
     return participant;
   }
 }
