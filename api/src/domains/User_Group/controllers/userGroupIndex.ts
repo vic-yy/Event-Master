@@ -101,7 +101,7 @@ router.delete('/delete/:user_groupId', async (req: Request, res: Response, next:
     }
 });
 
-router.get('/deleteByUserId/:userId', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/deleteByUserId/:userId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user_group = await userGroupService.deleteUserGroupByUserId(Number(req.params.userId));
         res.status(statusCodes.SUCCESS).send("User-Groups deleted successfully.");
@@ -110,7 +110,7 @@ router.get('/deleteByUserId/:userId', async (req: Request, res: Response, next: 
     }
 });
 
-router.get('/deleteByGroupId/:groupId', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/deleteByGroupId/:groupId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user_group = await userGroupService.deleteUserGroupByGroupId(Number(req.params.groupId));
         res.status(statusCodes.SUCCESS).send("User-Groups deleted successfully.");
