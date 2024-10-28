@@ -17,13 +17,13 @@ class UserGroupService {
       user_groupId: user_group.user_groupId,
       userId: user_group.userId,
       groupId: user_group.groupId,
-      email: 
+      email: user_group.email,
     };
     return protectedUserGroup;
   }
 
-  async createUserGroup(body: {userId: number, groupId: number}) {
-    const sameUserGroup = await prisma.user_group.findUnique({where: {userId_groupId: {userId: body.userId, groupId: body.groupId}}});
+  async createUserGroup(body: {userId: number, groupId: number, email: string}) {
+    const sameUserGroup = await prisma.user_group.findUnique({where: {userId_groupId: {userId: body.userId, groupId: body.groupId, email: body.email}}});
     if(sameUserGroup){
         throw new QueryError('user_groupAlreadyExists');
     }
@@ -77,7 +77,7 @@ class UserGroupService {
     return user_groups;
   }
 
-  async updateUserGroup(user_groupId: number, body: {userId?: number, groupId?: number}) {
+  async updateUserGroup(user_groupId: number, body: {userId?: number, groupId?: number, email?: string}) {
     const user_group = await prisma.user_group.findUnique({where: {user_groupId}});
     if(!user_group){
         throw new QueryError('user_groupNotFound');
