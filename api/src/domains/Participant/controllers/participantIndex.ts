@@ -121,7 +121,7 @@ router.get('/deleteByEventId/:eventId', async (req: Request, res: Response, next
 
 router.delete('/deleteByUserIdEventId', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const participant = await participantService.deleteParticipantByUserIdEventId(req.body);
+        const participant = await participantService.deleteParticipantByUserIdEventId(Number(req.body.userId), Number(req.body.eventId));
         res.status(statusCodes.SUCCESS).send("Participant deleted successfully.");
     } catch (error) {
         next(error);
