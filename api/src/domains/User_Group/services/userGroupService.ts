@@ -17,6 +17,7 @@ class UserGroupService {
       user_groupId: user_group.user_groupId,
       userId: user_group.userId,
       groupId: user_group.groupId,
+      email: 
     };
     return protectedUserGroup;
   }
@@ -26,7 +27,7 @@ class UserGroupService {
     if(sameUserGroup){
         throw new QueryError('user_groupAlreadyExists');
     }
-    const newUserGroup = await prisma.user_group.create({data: {...body, role: 'user_group'}});
+    const newUserGroup = await prisma.user_group.create({data: {...body, role: 'admin'}});
     return newUserGroup;
   }
 
