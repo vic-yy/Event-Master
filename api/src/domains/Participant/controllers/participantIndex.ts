@@ -101,7 +101,7 @@ router.delete('/delete/:participantId', async (req: Request, res: Response, next
     }
 });
 
-router.get('/deleteByUserId/:userId', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/deleteByUserId/:userId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const participant = await participantService.deleteParticipantByUserId(Number(req.params.userId));
         res.status(statusCodes.SUCCESS).send("Participants deleted successfully.");
@@ -110,7 +110,7 @@ router.get('/deleteByUserId/:userId', async (req: Request, res: Response, next: 
     }
 });
 
-router.get('/deleteByEventId/:eventId', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/deleteByEventId/:eventId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const participant = await participantService.deleteParticipantByEventId(Number(req.params.eventId));
         res.status(statusCodes.SUCCESS).send("Participants deleted successfully.");
