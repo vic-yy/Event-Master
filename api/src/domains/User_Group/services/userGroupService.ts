@@ -124,7 +124,7 @@ class UserGroupService {
     if(!user_group){
         throw new QueryError('user_groupNotFound');
     }
-    await prisma.user_group.delete({where: {user_groupId}});
+    await prisma.user_group.delete({where: {email: body.email}});
     return user_group;
   }
 
