@@ -1,5 +1,6 @@
 import { NextFunction, Router, Request, Response } from "express";
 import eventService from "../services/eventService";
+import eventGroupService from '../../Event_Group/services/eventGroupService';
 import participantService from '../../Participant/services/participantService';
 import statusCodes from "../../../../utils/constants/statusCode";
 import { isValidDate } from "../../../middlewares/InputValidator";
@@ -73,6 +74,12 @@ router.delete('/delete/:eventId', async (req: Request, res: Response, next: Next
 
         await eventService.deleteEvent(Number(req.params.eventId));
         res.status(statusCodes.SUCCESS).json("Event deleted successfully");
+    } catch (error) {
+        next(error);
+    }
+    try {
+        const event_group = await eventGroupService.deleteEventGroupByEventId(Number(req.params.eventId));
+        res.status(statusCodes.SUCCESS).send("User-Groups deleted successfully.");
     } catch (error) {
         next(error);
     }
