@@ -90,7 +90,7 @@ router.delete('/delete/:event_groupId', async (req: Request, res: Response, next
     }
 });
 
-router.get('/deleteByEventId/:eventId', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/deleteByEventId/:eventId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const event_group = await eventGroupService.deleteEventGroupByEventId(Number(req.params.eventId));
         res.status(statusCodes.SUCCESS).send("Event-Groups deleted successfully.");
@@ -99,7 +99,7 @@ router.get('/deleteByEventId/:eventId', async (req: Request, res: Response, next
     }
 });
 
-router.get('/deleteByGroupId/:groupId', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/deleteByGroupId/:groupId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const event_group = await eventGroupService.deleteEventGroupByGroupId(Number(req.params.groupId));
         res.status(statusCodes.SUCCESS).send("Event-Groups deleted successfully.");
