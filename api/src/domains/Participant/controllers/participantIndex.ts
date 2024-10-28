@@ -3,7 +3,7 @@ import statusCodes from '../../../../utils/constants/statusCode';
 import participantService from '../services/participantService';
 import { loginMiddleware, notLoggedInMiddleware, logoutMiddleware, verifyJWT } from '../../../middlewares/auth-middlewares';
 import { checkRole } from '../../../middlewares/checkRole';
-import { Role } from '../../../../utils/constants/role';
+import { Role } from '../../../../utils/constants/participantRole';
 
 const router = Router();
 
@@ -34,6 +34,30 @@ router.get('/getById/:participantId', async (req: Request, res: Response, next: 
         const participant = await participantService.getParticipantById(Number(req.params.participantId));
         const protectedParticipant = await participantService.protectParticipant(participant);
         res.status(statusCodes.SUCCESS).send(protectedParticipant);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.get('/getByUserId/:userId', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const participants = await participantService.getParticipantByUserId(Number(req.params.userId));
+        const protectedClients = await Promise.all(participants.map(async (client:any) => {
+            return await participantService.protectParticipant(client);
+        }));
+        res.status(statusCodes.SUCCESS).json(protectedClients);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.get('/getByEventId/:eventId', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const participants = await participantService.getParticipantByEventId(Number(req.params.eventId));
+        const protectedClients = await Promise.all(participants.map(async (client:any) => {
+            return await participantService.protectParticipant(client);
+        }));
+        res.status(statusCodes.SUCCESS).json(protectedClients);
     } catch (error) {
         next(error);
     }
@@ -72,6 +96,24 @@ router.delete('/delete/:participantId', async (req: Request, res: Response, next
     try {
         const participant = await participantService.deleteParticipantById(Number(req.params.participantId));
         res.status(statusCodes.SUCCESS).send("Participant deleted successfully.");
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.get('/deleteByUserId/:userId', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const participant = await participantService.deleteParticipantByUserId(Number(req.params.userId));
+        res.status(statusCodes.SUCCESS).send("Participants deleted successfully.");
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.get('/deleteByEventId/:eventId', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const participant = await participantService.deleteParticipantByEventId(Number(req.params.eventId));
+        res.status(statusCodes.SUCCESS).send("Participants deleted successfully.");
     } catch (error) {
         next(error);
     }
