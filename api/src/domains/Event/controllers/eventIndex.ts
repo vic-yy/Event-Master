@@ -1,5 +1,6 @@
 import { NextFunction, Router, Request, Response } from "express";
 import eventService from "../services/eventService";
+import participantService from '../../Participant/services/participantService';
 import statusCodes from "../../../../utils/constants/statusCode";
 import { isValidDate } from "../../../middlewares/InputValidator";
 import { NotAuthorizedError } from "../../../../errors/NotAuthorizedError";
@@ -72,6 +73,12 @@ router.delete('/delete/:eventId', async (req: Request, res: Response, next: Next
 
         await eventService.deleteEvent(Number(req.params.eventId));
         res.status(statusCodes.SUCCESS).json("Event deleted successfully");
+    } catch (error) {
+        next(error);
+    }
+    try {
+        const participant = await participantService.deleteParticipantByEventId(Number(req.params.eventId));
+        res.status(statusCodes.SUCCESS).send("Participants deleted successfully.");
     } catch (error) {
         next(error);
     }
