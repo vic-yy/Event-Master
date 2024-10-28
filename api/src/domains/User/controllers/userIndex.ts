@@ -2,6 +2,7 @@ import { NextFunction, Request, Response, Router } from 'express';
 import statusCodes from '../../../../utils/constants/statusCode';
 import userService from '../services/userService';
 import userGroupService from '../../User_Group/services/userGroupService';
+import participantService from '../../Participant/services/participantService';
 import { loginMiddleware, notLoggedInMiddleware, logoutMiddleware, verifyJWT } from '../../../middlewares/auth-middlewares';
 import { checkRole } from '../../../middlewares/checkRole';
 import { Role } from '../../../../utils/constants/role';
@@ -95,6 +96,12 @@ router.delete('/delete/:userId', async (req: Request, res: Response, next: NextF
     } catch (error) {
         next(error);
     }
+    try {
+        const participant = await participantService.deleteParticipantByUserId(Number(req.params.userId));
+        res.status(statusCodes.SUCCESS).send("Participants deleted successfully.");
+    } catch (error) {
+        next(error);
+    }
 });
 
 router.delete('/deleteByEmail', async (req: Request, res: Response, next: NextFunction) => {
@@ -107,6 +114,12 @@ router.delete('/deleteByEmail', async (req: Request, res: Response, next: NextFu
     try {
         const user_group = await userGroupService.deleteUserGroupByEmail(req.body);
         res.status(statusCodes.SUCCESS).send("User-Groups deleted successfully.");
+    } catch (error) {
+        next(error);
+    }
+    try {
+        const participant = await participantService.deleteParticipantByEmail(req.body);
+        res.status(statusCodes.SUCCESS).send("Participants deleted successfully.");
     } catch (error) {
         next(error);
     }
