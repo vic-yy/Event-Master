@@ -17,12 +17,13 @@ class ParticipantService {
       participantId: participant.participantId,
       userId: participant.userId,
       eventId: participant.eventId,
+      email: participant.email,
     };
     return protectedParticipant;
   }
 
-  async createParticipant(body: {userId: number, eventId: number}) {
-    const sameParticipant = await prisma.participant.findUnique({where: {userId_eventId: {userId: body.userId, eventId: body.eventId}}});
+  async createParticipant(body: {userId: number, eventId: number, email: string}) {
+    const sameParticipant = await prisma.participant.findUnique({where: {userId_eventId: {userId: body.userId, eventId: body.eventId, email: body.email}}});
     if(sameParticipant){
         throw new QueryError('participantAlreadyExists');
     }
@@ -76,7 +77,7 @@ class ParticipantService {
     return participants;
   }
 
-  async updateParticipant(participantId: number, body: {userId?: number, eventId?: number}) {
+  async updateParticipant(participantId: number, body: {userId?: number, eventId?: number, email?: email}) {
     const participant = await prisma.participant.findUnique({where: {participantId}});
     if(!participant){
         throw new QueryError('participantNotFound');
