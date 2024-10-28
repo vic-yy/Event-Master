@@ -21,10 +21,16 @@ export const ErrorMessages = {
     QueryError: {
       userNotFound: 'User not found.',
       userAlreadyExists: 'User already exists.',
-      participantNotFound: 'Participant not found.',
-      participantAlreadyExists: 'Participant already exists.',
-      eventNotFound: 'User not found.',
-      eventAlreadyExists: 'User already exists.',
+      participantNotFound: 'Participant not found in event.',
+      participantAlreadyExists: 'Participant already exists in event.',
+      user_groupNotFound: 'User not found in group.',
+      user_groupAlreadyExists: 'User already exists in group.',
+      event_groupNotFound: 'Event not found in group.',
+      event_groupAlreadyExists: 'Event already exists in group.',
+      eventNotFound: 'Event not found.',
+      eventAlreadyExists: 'Event already exists.',
+      groupNotFound: 'Group not found.',
+      groupAlreadyExists: 'Group already exists.',
       queryFailed: 'There was an error while executing the query.'
     },
     TokenError: {
