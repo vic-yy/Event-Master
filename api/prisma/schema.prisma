@@ -34,11 +34,12 @@ model Participant {
   participantId   Int       @id @default(autoincrement())
   userId          Int
   eventId         Int
+  email           String
   role            String
 
-  user            User         @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  user            User         @relation(fields: [userId, email], references: [userId, email], onDelete: Cascade)
   event           Event        @relation(fields: [eventId], references: [eventId], onDelete: Cascade)
-  @@unique([userId, eventId])
+  @@unique([userId, eventId, email])
 }
 
 model Group {
