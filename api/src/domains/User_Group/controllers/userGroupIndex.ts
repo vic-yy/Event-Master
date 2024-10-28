@@ -3,7 +3,7 @@ import statusCodes from '../../../../utils/constants/statusCode';
 import userGroupService from '../services/userGroupService';
 import { loginMiddleware, notLoggedInMiddleware, logoutMiddleware, verifyJWT } from '../../../middlewares/auth-middlewares';
 import { checkRole } from '../../../middlewares/checkRole';
-import { Role } from '../../../../utils/constants/participantRole';
+import { Role } from '../../../../utils/constants/groupRole';
 
 const router = Router();
 
