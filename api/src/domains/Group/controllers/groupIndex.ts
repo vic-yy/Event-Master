@@ -11,12 +11,8 @@ const router = Router();
 
 router.post('/create', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        if(req.body.date)
-            isValidDate(req.body.date);
-        else req.body.date = new Date();
-        
-        if(!req.body.title || req.body.title.trim() === '')
-            throw new InvalidParamError('missingParam', 'title');
+        if(!req.body.name || req.body.name.trim() === '')
+            throw new InvalidParamError('missingParam', 'name');
     
 
         const group = await groupService.createGroup(req.body);
