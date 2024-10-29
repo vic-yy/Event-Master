@@ -16,8 +16,8 @@ class GroupService {
         return group;
     }
 
-    async getGroupByTitle(title: string) {
-        const group = await prisma.group.findFirst({where: {title}});
+    async getGroupByName(name: string) {
+        const group = await prisma.group.findFirst({where: {name}});
         return group;
     }
     
