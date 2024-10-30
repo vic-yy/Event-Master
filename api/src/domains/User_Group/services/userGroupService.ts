@@ -27,7 +27,7 @@ class UserGroupService {
     if(sameUserGroup){
         throw new QueryError('user_groupAlreadyExists');
     }
-    const newUserGroup = await prisma.user_group.create({data: {...body, role: 'admin'}});
+    const newUserGroup = await prisma.user_group.create({data: {...body, role: 'participant'}});
     return newUserGroup;
   }
 
