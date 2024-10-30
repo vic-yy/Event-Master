@@ -178,6 +178,9 @@ const EventPage = () => {
   ];
 
   const filteredEvents = eventData.filter((event) => {
+    console.log('event.category:', event.category);
+console.log('eventType:', eventType);
+
     const matchesType = eventType ? event.category.toLowerCase() === eventType.toLowerCase() : true;
   
 

@@ -22,12 +22,12 @@ const SearchBar: React.FC<SearchBarProps> = ({
   setEndDate,
 }) => {
   const eventTypes = [
-    { label: 'Palestra', value: 'palestra' },
-    { label: 'Competição', value: 'competicao' },
-    { label: 'Festa', value: 'festa' },
-    { label: 'Evento de Empresa', value: 'evento_empresa' },
-    { label: 'Workshop', value: 'workshop' },
-    { label: 'Seminário', value: 'seminario' },
+    { label: 'Palestra', value: 'Palestra' },
+    { label: 'Competição', value: 'Competição' },
+    { label: 'Festa', value: 'Festa' },
+    { label: 'Evento de Empresa', value: 'Evento de Empresa' },
+    { label: 'Workshop', value: 'Workshop' },
+    { label: 'Seminário', value: 'Seminário' },
   ];
 
   const timeRanges = [
