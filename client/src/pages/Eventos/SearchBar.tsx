@@ -59,7 +59,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
         <label>Horário</label>
         <select 
           value={eventTime} 
-          onChange={(e) => setEventTime(e.target.value)}
+          onChange={(e) => {setEventTime(e.target.value);
+            console.log("Horário selecionado:", e.target.value);
+          }
+          }
         >
           <option value="">Selecione um horário</option>
           {timeRanges.map((range) => (

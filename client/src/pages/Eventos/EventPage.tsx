@@ -4,6 +4,38 @@ import Filters from './Filter';
 import EventList from './EventList';
 import './style.css';
 
+const checkTimeRange = (eventTimeStr: string, selectedTimeRange: string) => {
+    console.log("checkTimeRange called with:", { eventTimeStr, selectedTimeRange });
+    
+    if (!eventTimeStr) {
+      console.log("No eventTimeStr provided, returning true");
+      return true;
+    }
+
+    const [eventStartTimeStr, eventEndTimeStr] = eventTimeStr.split(/\s*[-–—]\s*/);
+    console.log("Parsed times:", { eventStartTimeStr, eventEndTimeStr });
+
+    const eventStartHour = parseInt(eventStartTimeStr.split(':')[0], 10);
+    const eventEndHour = eventEndTimeStr ? parseInt(eventEndTimeStr.split(':')[0], 10) : eventStartHour;
+
+    console.log("Parsed hours:", { eventStartHour, eventEndHour });
+
+    if (isNaN(eventStartHour)) {
+      console.warn("Invalid eventStartHour, returning true");
+      return true;
+    }
+
+    if (selectedTimeRange === 'morning') {
+      return eventStartHour >= 8 && eventStartHour < 12;
+    } else if (selectedTimeRange === 'afternoon') {
+      return eventStartHour >= 12 && eventStartHour < 18;
+    } else if (selectedTimeRange === 'evening') {
+      return eventStartHour >= 18 && eventStartHour < 23;
+    }
+    
+    console.log("No matching time range found, returning true");
+    return true;
+};
 
 const eventData = [
     {
@@ -21,7 +53,7 @@ const eventData = [
     {
       id: 2,
       name: 'Programação competitiva de HTML',
-      image: 'html-competition.jpg',
+      image: 'https://i.ytimg.com/vi/qMjYT2xdZ2w/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDofinZ7nId1RIeWoAhLvV3R07MWw',
       title: 'Programação competitiva de HTML',
       time: '13:00 - 14:00',
       location: 'ICEX - 1990',
@@ -33,7 +65,7 @@ const eventData = [
     {
       id: 3,
       name: 'Calourada Computação 2024',
-      image: 'calourada.jpg',
+      image: 'https://img.freepik.com/free-psd/3d-view-character-dj_23-2150857251.jpg',
       title: 'Calourada Computação 2024',
       time: '19:00 - 23:00',
       location: 'CAD 3 - 302',
@@ -45,7 +77,7 @@ const eventData = [
     {
       id: 4,
       name: 'Os projetos mais avançados de robótica em Minas Gerais',
-      image: 'robotics-event.jpg',
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQagjKLz1gFFe6g8qatU8NjViRQYl81kDLEfg&s',
       title: 'Os projetos mais avançados de robótica em Minas Gerais',
       time: '18:00 - 20:00',
       location: 'CAD 3 - 301',
@@ -136,6 +168,10 @@ const eventData = [
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [activeCategory, setActiveCategory] = useState('All');    
+
+    useEffect(() => {
+        console.log("Valor de eventTime atualizado:", eventTime);
+      }, [eventTime]);
   
 
     const filteredEvents = eventData.filter((event) => {
@@ -150,30 +186,8 @@ const eventData = [
       });
       
 
-const checkTimeRange = (eventTimeStr: string, selectedTimeRange: string) => {
-    if (!eventTimeStr) {
-      return true;
-    }
 
-  
-    const [eventStartTimeStr, eventEndTimeStr] = eventTimeStr.split(/\s*[-–—]\s*/);
-    const eventStartHour = parseInt(eventStartTimeStr.split(':')[0], 10);
-    const eventEndHour = eventEndTimeStr ? parseInt(eventEndTimeStr.split(':')[0], 10) : eventStartHour;
-  
-    if (isNaN(eventStartHour)) {
-      return true;
-    }
-
-    if (selectedTimeRange === 'morning') {
-      return eventStartHour >= 8 && eventStartHour < 12;
-    } else if (selectedTimeRange === 'afternoon') {
-      return eventStartHour >= 12 && eventStartHour < 18;
-    } else if (selectedTimeRange === 'evening') {
-      return eventStartHour >= 18 && eventStartHour < 23;
-    }
     
-    return true;
-  };
   
   
   

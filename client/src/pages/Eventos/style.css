@@ -1,8 +1,13 @@
+.event-page {
+    max-width: 1200px; 
+    margin: 0 auto; 
+}
+
 .search-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 8px 16px; 
     background-color: #f8f8f8; 
     border-radius: 8px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -63,10 +68,12 @@
 
 
 
-.event-card {
+  .event-card {
     display: flex;
     flex-direction: column;
+    padding: 12px;
     width: 250px;
+    min-height: 350px; /* Ensures a consistent card height */
     border-radius: 8px;
     overflow: hidden;
     background-color: #ffffff;
@@ -84,11 +91,12 @@
     width: 100%;
     height: 150px;
     object-fit: cover;
+    display: block;
 }
 
 
 .event-details {
-    padding: 15px;
+    padding: 8px 0;
     display: flex;
     flex-direction: column;
 }
@@ -164,7 +172,22 @@
 
 .filters {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     margin: 20px 0;
-    justify-content: center; 
+    justify-content: center;
+}
+
+.filters button {
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.filters button.active {
+    background-color: #333;
+    color: white;
 }
