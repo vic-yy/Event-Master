@@ -14,22 +14,23 @@ type EventCardProps = {
   price: string;
   category: string;
   organizer: string;
+  description: string;
+  onOpenModal: () => void; // Adicione onOpenModal
 };
 
-const EventCard: React.FC<EventCardProps> = ({ image, title, time, location, date, price, category, organizer }) => {
-  
+const EventCard: React.FC<EventCardProps> = ({ image, title, time, location, date, price, category, organizer, onOpenModal }) => {
   const handleSubscribe = () => {
     console.log(`Inscrito no evento: ${title}`);
   };
 
   return (
-    <Card 
+    <Card
       sx={{
         maxWidth: 250,
         minHeight: 350,
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between', // Mantém o botão na extremidade inferior
+        justifyContent: 'space-between',
         borderRadius: 2,
         overflow: 'hidden',
         backgroundColor: '#ffffff',
@@ -41,7 +42,7 @@ const EventCard: React.FC<EventCardProps> = ({ image, title, time, location, dat
         },
       }}
     >
-      <CardActionArea sx={{ flexGrow: 1 }}>
+      <CardActionArea sx={{ flexGrow: 1 }} onClick={onOpenModal}>
         <CardMedia
           component="img"
           height="150"
