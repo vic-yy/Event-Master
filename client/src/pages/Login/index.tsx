@@ -8,9 +8,35 @@ import {
     Grid
 } from '@mui/material';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../../services/user/login';
     
   export default function Login() {
+    const navigate = useNavigate();
+
+    async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+
+        try{
+
+            const bodyRequest = {
+                email: String(data.get('email')),
+                password: String(data.get('password'))
+            };
+
+            await login(bodyRequest);
+            alert("Login efetuado com sucesso!");
+            // navigate('/dashboard');
+        }catch(err : any){
+            const response = err.response;
+            console.log(response)
+            alert(response.data)
+        }
+    }
+
+
+
     const [showPassword, setShowPassword] = useState(false);
 
     return (
@@ -77,6 +103,8 @@ import { Link } from 'react-router-dom';
                 >
                 
                 <Box className="form-box"
+                    component="form"
+                    onSubmit={handleLogin}
                     sx={{
                         marginLeft: '80px',
                         marginRight: '80px',
@@ -117,9 +145,14 @@ import { Link } from 'react-router-dom';
                             paddingBottom: '30px'
                         }}>
                             
-                        <TextField className="email-box" label="Email" variant="outlined" fullWidth />
+                        <TextField className="email-box" 
+                            name='email'
+                            label="Email" 
+                            variant="outlined" 
+                            fullWidth />
 
                         <TextField className="password-box"
+                            name='password'
                             label="Senha" 
                             variant="outlined"
                             type={showPassword ? 'text' : 'password'} 
