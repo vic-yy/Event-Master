@@ -1,6 +1,7 @@
 const Role = Object.freeze({
-  OWNER: 'owner',
-	ADM: 'admin'
+	OWNER: 'owner',
+	ADM: 'admin',
+	USER: 'participant'
 });
 
 export { Role };
