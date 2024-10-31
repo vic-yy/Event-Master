@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import Login from '../pages/Login'
 import Cadastro from '../pages/Cadastro'
+import EventPage from '../pages/Eventos/EventPage'
 
 export function Router(){
     return(
@@ -10,6 +11,7 @@ export function Router(){
                 <Route index element={ <Login />}/>
                 <Route path='/login' element={ <Login />}/>
                 <Route path='/cadastro' element={ <Cadastro />}/>
+                <Route path='/eventos' element={ <EventPage />}/>
             </Routes>
         </BrowserRouter>
     )
