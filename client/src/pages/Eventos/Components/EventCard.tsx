@@ -15,7 +15,7 @@ type EventCardProps = {
   category: string;
   organizer: string;
   description: string;
-  onOpenModal: () => void; // Adicione onOpenModal
+  onOpenModal: () => void; 
 };
 
 const EventCard: React.FC<EventCardProps> = ({ image, title, time, location, date, price, category, organizer, onOpenModal }) => {

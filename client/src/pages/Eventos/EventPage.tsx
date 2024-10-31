@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import SearchBar from './SearchBar';
-import Filters from './Filter';
-import EventList from './EventList';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import CardMedia from '@mui/material/CardMedia';
+import SearchBar from './Components/SearchBar';
+import Filters from './Components/Filter';
+import EventList from './Components/EventList';
+import { Event } from './types/Event'
+import EventDetailsModal from './Components/EventDetailsModal'; 
 import './style.css';
 
 const EventPage = () => {
@@ -15,23 +11,8 @@ const EventPage = () => {
   const [eventTime, setEventTime] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [activeCategory, setActiveCategory] = useState('All');    
+  const [activeCategory, setActiveCategory] = useState('All');
   const [openModal, setOpenModal] = useState(false);
-
-  interface Event {
-    id: number;
-    name: string;
-    image: string;
-    title: string;
-    time: string;
-    location: string;
-    date: string;
-    price: string;
-    category: string;
-    organizer: string;
-    description: string;
-  }
-  
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
   const handleOpenModal = (event: Event) => {
@@ -45,8 +26,7 @@ const EventPage = () => {
   };
 
   const eventData: Event[] = [
-    {
-      id: 1,
+    {id: 1,
       name: 'Inteligência artificial: até quando teremos emprego?',
       image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy85CghxDgvHub6aPkBf-dwZwK8JKl_2XUjw&s',
       title: 'Inteligência artificial: até quando teremos emprego?',
@@ -178,12 +158,7 @@ const EventPage = () => {
   ];
 
   const filteredEvents = eventData.filter((event) => {
-    console.log('event.category:', event.category);
-console.log('eventType:', eventType);
-
     const matchesType = eventType ? event.category.toLowerCase() === eventType.toLowerCase() : true;
-  
-
     const eventStartHour = parseInt(event.time.split(':')[0], 10);
     const matchesTime = eventTime === 'morning'
       ? eventStartHour >= 8 && eventStartHour < 12
@@ -192,19 +167,14 @@ console.log('eventType:', eventType);
       : eventTime === 'evening'
       ? eventStartHour >= 18 && eventStartHour < 23
       : true;
-  
 
     const eventDate = new Date(event.date);
     const matchesStartDate = startDate ? eventDate >= new Date(startDate) : true;
     const matchesEndDate = endDate ? eventDate <= new Date(endDate) : true;
-  
-
     const matchesCategory = activeCategory === 'All' || activeCategory === '' || event.organizer === activeCategory;
-  
 
     return matchesType && matchesTime && matchesStartDate && matchesEndDate && matchesCategory;
   });
-  
 
   return (
     <div className="event-page">
@@ -224,55 +194,11 @@ console.log('eventType:', eventType);
       />
       <EventList events={filteredEvents} handleOpenModal={handleOpenModal} />
 
-      <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>
-        <DialogTitle>{selectedEvent?.title}</DialogTitle>
-        <DialogContent>
-
-          <CardMedia
-            component="img"
-            height="200"
-            image={selectedEvent?.image}
-            alt={selectedEvent?.title}
-            style={{ borderRadius: '8px', marginBottom: '16px' }}
-          />
-
-          <Typography variant="body1" gutterBottom>
-            <strong>Horário:</strong> {selectedEvent?.time}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Local:</strong> {selectedEvent?.location}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Data:</strong> {selectedEvent?.date}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Preço:</strong> {selectedEvent?.price}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Categoria:</strong> {selectedEvent?.category}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            <strong>Organizador:</strong> {selectedEvent?.organizer}
-          </Typography>
-
-          <Typography variant="body2" color="textSecondary" style={{ marginTop: '16px', marginBottom: '16px' }}>
-            {selectedEvent?.description}
-          </Typography>
-
-          <Button 
-            variant="contained" 
-            color="primary" 
-            fullWidth 
-            onClick={() => console.log(`Inscrito no evento: ${selectedEvent?.title}`)}
-            sx={{ marginTop: '16px' }}
-          >
-            Inscrever-se
-          </Button>
-        </DialogContent>
-        <Button onClick={handleCloseModal} color="primary" sx={{ margin: '16px' }}>
-          Fechar
-        </Button>
-      </Dialog>
+      <EventDetailsModal
+        open={openModal}
+        onClose={handleCloseModal}
+        event={selectedEvent}
+      />
     </div>
   );
 };
