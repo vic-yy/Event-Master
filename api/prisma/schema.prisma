@@ -23,5 +23,10 @@ model Event {
   description           String
   create_at             DateTime @default(now())
   location              String
-  date                  DateTime  
+  date                  DateTime
+  image                 String
+  time                  String
+  price                 String
+  category              String
+  organizer             String
 }
