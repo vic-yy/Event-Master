@@ -15,6 +15,8 @@ model User {
   role            String
   token           String?
   tokenExpiration DateTime?
+  participants    Participant[]
+  user_groups     User_Group[]
 }
 
 model Event {
@@ -29,4 +31,43 @@ model Event {
   price                 String
   category              String
   organizer             String
+  participants    	    Participant[]
+  event_groups          Event_Group[]
+}
+
+model Participant {
+  participantId   Int       @id @default(autoincrement()) 
+  userId          Int       
+  eventId         Int
+  role            String
+  user            User         @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  event           Event        @relation(fields: [eventId], references: [eventId], onDelete: Cascade)
+  @@unique([userId, eventId])
+}
+
+model User_Group {
+  user_groupId  Int     @id @default(autoincrement()) @unique
+  userId        Int
+  groupId       Int     @unique
+  role          String
+  user         User           @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  group        Group          @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
+  @@unique([userId, groupId])
+}
+
+model Group {
+  groupId      Int      @id @default(autoincrement())
+  title        String
+  description  String
+  user_groups  User_Group[]
+  event_groups Event_Group[]
+}
+
+model Event_Group {
+  event_groupId  Int     @id @default(autoincrement()) @unique
+  eventId        Int     @unique
+  groupId        Int
+  event        Event          @relation(fields: [eventId], references: [eventId], onDelete: Cascade)
+  group        Group          @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
+  @@unique([eventId, groupId])
 }
