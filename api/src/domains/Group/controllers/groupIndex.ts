@@ -1,9 +1,6 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import statusCodes from '../../../../utils/constants/statusCode';
 import groupService from '../services/groupService';
-import { verifyJWT } from '../../../middlewares/auth-middlewares';
-import { checkRole } from '../../../middlewares/checkRole';
-import { Role } from '../../../../utils/constants/groupRole';
 
 const router = Router();
 
