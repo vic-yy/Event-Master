@@ -23,7 +23,11 @@ class ParticipantService {
     return participant;
   }
   async getParticipantsByUserId(userId: number) {
-    const participants = await prisma.participant.findMany({ where: { userId: userId } });
+    const participants = 
+    await prisma.participant.findMany({ 
+      where: { userId: userId },
+      include: { event: true }
+    });
     if (participants.length === 0) {
       throw new QueryError('participantNotFound');
     }
