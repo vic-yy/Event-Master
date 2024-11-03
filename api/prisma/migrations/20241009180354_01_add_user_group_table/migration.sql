@@ -6,7 +6,7 @@ CREATE TABLE `User_Group` (
     `email` VARCHAR(191) NOT NULL,
     `role` VARCHAR(191) NOT NULL,
 
-    UNIQUE INDEX `user_group_unique` (`userId`, `groupId`, `email`),
+    UNIQUE INDEX `user_group_unique` (`userId`, `groupId`),
     PRIMARY KEY (`user_groupId`),
 
     CONSTRAINT `fk_email` FOREIGN KEY (`email`) REFERENCES `User` (`email`) ON DELETE CASCADE,
