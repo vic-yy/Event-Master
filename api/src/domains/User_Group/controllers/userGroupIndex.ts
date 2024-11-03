@@ -127,3 +127,5 @@ router.delete('/deleteByUserIdGroupId', async (req: Request, res: Response, next
         next(error);
     }
 });
+
+export default router;
