@@ -39,7 +39,7 @@ class EventGroupService {
   }
 
   async getEventGroupByEventId(eventId: number) {
-    const event_group = await prisma.event_group.findUnique({where: {eventId}});
+    const event_group = await prisma.event_group.findMany({where: {eventId}});
     if(!event_group){
         throw new QueryError('event_groupNotFound');
     }
@@ -47,7 +47,7 @@ class EventGroupService {
   }
 
   async getEventGroupByGroupId(groupId: number) {
-    const event_group = await prisma.event_group.findUnique({where: {groupId}});
+    const event_group = await prisma.event_group.findMany({where: {groupId}});
     if(!event_group){
         throw new QueryError('event_groupNotFound');
     }
@@ -92,7 +92,7 @@ class EventGroupService {
   }
 
   async deleteEventGroupByEventId(eventId: number) {
-    const event_group = await prisma.event_group.findUnique({where: {eventId}});
+    const event_group = await prisma.event_group.findMany({where: {eventId}});
     if(!event_group){
         throw new QueryError('event_groupNotFound');
     }
@@ -101,7 +101,7 @@ class EventGroupService {
   }
 
   async deleteEventGroupByGroupId(groupId: number) {
-    const event_group = await prisma.event_group.findUnique({where: {groupId}});
+    const event_group = await prisma.event_group.findMany({where: {groupId}});
     if(!event_group){
         throw new QueryError('event_groupNotFound');
     }
