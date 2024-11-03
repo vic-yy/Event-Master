@@ -42,7 +42,7 @@ model Participant {
   user            User     @relation(name: "UserToParticipant", fields: [userId], references: [userId], onDelete: Cascade)
   em              User     @relation(name: "EmailToParticipant", fields: [email], references: [email], onDelete: Cascade)
   event           Event    @relation(fields: [eventId], references: [eventId], onDelete: Cascade)
-  @@unique([userId, eventId, email])
+  @@unique([userId, eventId])
 }
 
 model Group {
@@ -63,7 +63,7 @@ model User_Group {
   user          User     @relation(name: "UserToGroup", fields: [userId], references: [userId], onDelete: Cascade)
   em            User     @relation(name: "EmailToGroup", fields: [email], references: [email], onDelete: Cascade)
   group         Group          @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
-  @@unique([userId, groupId, email])
+  @@unique([userId, groupId])
 }
 
 model Event_Group {
