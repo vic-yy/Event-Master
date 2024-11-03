@@ -16,8 +16,8 @@ class GroupService {
         return group;
     }
 
-    async getGroupByName(name: string) {
-        const group = await prisma.group.findFirst({where: {name}});
+    async getGroupBytitle(title: string) {
+        const group = await prisma.group.findFirst({where: {title}});
         return group;
     }
     
@@ -26,12 +26,12 @@ class GroupService {
         return groups;
     }
     
-    async updateGroup(groupId: number, body: {name?: string, description?: string}) {
+    async updateGroup(groupId: number, body: {title?: string, description?: string}) {
         const group = await prisma.group.findUnique({where: {groupId}});
         if(!group){
             throw new QueryError('groupNotFound');
         }
-        const updatedGroup = await prisma.group.update({where: {groupId}});
+        const updatedGroup = await prisma.group.update({where: {groupId}, data: body});
         return updatedGroup;
     }
     
