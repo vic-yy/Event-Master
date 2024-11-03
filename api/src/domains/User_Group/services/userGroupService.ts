@@ -16,14 +16,13 @@ class UserGroupService {
     const protectedUserGroup = {
       user_groupId: user_group.user_groupId,
       userId: user_group.userId,
-      groupId: user_group.groupId,
-      email: user_group.email,
+      groupId: user_group.groupId
     };
     return protectedUserGroup;
   }
 
-  async createUserGroup(body: {userId: number, groupId: number, email: string}) {
-    const sameUserGroup = await prisma.user_Group.findUnique({where: {userId_groupId_email: {userId: body.userId, groupId: body.groupId, email: body.email}}});
+  async createUserGroup(body: {userId: number, groupId: number}) {
+    const sameUserGroup = await prisma.user_Group.findUnique({where: {userId_groupId: {userId: body.userId, groupId: body.groupId}}});
     if(sameUserGroup){
         throw new QueryError('user_groupAlreadyExists');
     }
@@ -77,13 +76,13 @@ class UserGroupService {
     return user_groups;
   }
 
-  async updateUserGroup(user_groupId: number, body: {userId?: number, groupId?: number, email: string}) {
+  async updateUserGroup(user_groupId: number, body: {userId?: number, groupId?: number}) {
     const user_group = await prisma.user_Group.findUnique({where: {user_groupId}});
     if(!user_group){
         throw new QueryError('user_groupNotFound');
     }
     if (body.userId && body.groupId) {
-      const sameUserGroup = await prisma.user_Group.findUnique({where: {userId_groupId_email: {userId: body.userId, groupId: body.groupId, email: body.email}}});
+      const sameUserGroup = await prisma.user_Group.findUnique({where: {userId_groupId: {userId: body.userId, groupId: body.groupId}}});
       if (sameUserGroup && sameUserGroup.user_groupId !== user_groupId) {
         throw new QueryError('user_groupAlreadyExists');
       }
@@ -119,21 +118,12 @@ class UserGroupService {
     return user_group;
   }
 
-  async deleteUserGroupByEmail(body: {email: string}) {
-    const user_group = await prisma.user_Group.findMany({where: {email: body.email}});
-    if(!user_group){
-        throw new QueryError('user_groupNotFound');
-    }
-    await prisma.user_Group.deleteMany({where: {email: body.email}});
-    return user_group;
-  }
-
   async deleteUserGroupByUserIdGroupId(userId: number, groupId: number) {
     const user_group = await prisma.user_Group.findUnique({where: {userId_groupId: {userId, groupId}}});
     if(!user_group){
         throw new QueryError('user_groupNotFound');
     }
-    await prisma.user_Group.delete({where: {userId_groupId_email: {userId, groupId, email}}});
+    await prisma.user_Group.delete({where: {userId_groupId: {userId, groupId}}});
     return user_group;
   }
 }
