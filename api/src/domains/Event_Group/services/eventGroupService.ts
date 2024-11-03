@@ -96,7 +96,7 @@ class EventGroupService {
     if(!event_group){
         throw new QueryError('event_groupNotFound');
     }
-    await prisma.event_Group.delete({where: {eventId}});
+    await prisma.event_Group.deleteMany({where: {eventId}});
     return event_group;
   }
 
@@ -105,7 +105,7 @@ class EventGroupService {
     if(!event_group){
         throw new QueryError('event_groupNotFound');
     }
-    await prisma.event_Group.delete({where: {groupId}});
+    await prisma.event_Group.deleteMany({where: {groupId}});
     return event_group;
   }
 
