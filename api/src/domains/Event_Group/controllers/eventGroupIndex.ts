@@ -18,7 +18,7 @@ router.post('/create', async (req: Request, res: Response, next: NextFunction) =
 router.get('/getAll', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const event_groups = await eventGroupService.getAllEventGroups();
-        const protectedClients = await Promise.all(eventGroups.map(async (client:any) => {
+        const protectedClients = await Promise.all(event_groups.map(async (client:any) => {
             return await eventGroupService.protectEventGroup(client);
         }));
         res.status(statusCodes.SUCCESS).json(protectedClients);
