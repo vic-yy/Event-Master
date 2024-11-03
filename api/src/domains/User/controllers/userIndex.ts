@@ -10,6 +10,22 @@ router.post('/login', notLoggedInMiddleware, loginMiddleware);
 
 router.post('/logout', logoutMiddleware);
 
+router.get('/me', verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        console.log(req.user);
+        const user = await userService.getUserById(req.user.id);
+        res.status(statusCodes.SUCCESS).send({
+            userId: user.userId, 
+            name: user.name, 
+            email: user.email, 
+            role: user.role
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.post('/create', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await userService.createUser(req.body);

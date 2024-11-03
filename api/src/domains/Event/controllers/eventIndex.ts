@@ -55,8 +55,8 @@ router.put('/update/:eventId', async (req: Request, res: Response, next: NextFun
             throw new NotAuthorizedError("customMessage", "Event ID cannot be updated");
         }
 
-        if(req.body.date)
-            isValidDate(req.body.date);
+        // if(req.body.date)
+        //     isValidDate(req.body.date);
 
         const event = await eventService.updateEvent(Number(req.params.eventId), req.body);
         res.status(statusCodes.SUCCESS).json("Event updated successfully");

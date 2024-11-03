@@ -85,6 +85,8 @@ export function notLoggedInMiddleware(req: Request, res: Response, next: NextFun
     try {
         const token = cookieExtractor(req);
 
+        console.log(token)
+
         if (token) {
             const decoded = verify(token, process.env.JWT_SECRET || '');
             if (decoded) {

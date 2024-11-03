@@ -13,6 +13,13 @@ class ParticipantService {
     return newParticipant;
   }
 
+  async getParticipantByUserIdEventId(userId: number, eventId: number) {
+    const participant = await prisma.participant.findUnique({where: {userId_eventId: {userId, eventId}}});
+    if(!participant){
+        throw new QueryError('participantNotFound');
+    }
+    return participant;
+  }
 
 
   async getParticipantById(participantId: number) {
