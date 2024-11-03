@@ -64,8 +64,8 @@ class UserGroupService {
     return user_group;
   }
 
-  async getUserGroupByUserIdGroupId(userId: number, groupId: number, email: string) {
-    const user_group = await prisma.user_Group.findUnique({where: {userId_groupId_email: {userId, groupId, email}}});
+  async getUserGroupByUserIdGroupId(userId: number, groupId: number) {
+    const user_group = await prisma.user_Group.findUnique({where: {userId_groupId: {userId, groupId}}});
     if(!user_group){
         throw new QueryError('user_groupNotFound');
     }
@@ -128,8 +128,8 @@ class UserGroupService {
     return user_group;
   }
 
-  async deleteUserGroupByUserIdGroupId(userId: number, groupId: number, email: string) {
-    const user_group = await prisma.user_Group.findUnique({where: {userId_groupId_email: {userId, groupId, email}}});
+  async deleteUserGroupByUserIdGroupId(userId: number, groupId: number) {
+    const user_group = await prisma.user_Group.findUnique({where: {userId_groupId: {userId, groupId}}});
     if(!user_group){
         throw new QueryError('user_groupNotFound');
     }
