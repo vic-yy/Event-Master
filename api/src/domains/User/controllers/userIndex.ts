@@ -111,18 +111,6 @@ router.delete('/deleteByEmail', async (req: Request, res: Response, next: NextFu
     } catch (error) {
         next(error);
     }
-    try {
-        const user_group = await userGroupService.deleteUserGroupByEmail(req.body);
-        res.status(statusCodes.SUCCESS).send("User-Groups deleted successfully.");
-    } catch (error) {
-        next(error);
-    }
-    try {
-        const participant = await participantService.deleteParticipantByEmail(req.body);
-        res.status(statusCodes.SUCCESS).send("Participants deleted successfully.");
-    } catch (error) {
-        next(error);
-    }
 });
 
 export default router;
