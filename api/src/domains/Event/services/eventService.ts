@@ -26,7 +26,7 @@ class EventService {
         return events;
     }
     
-    async updateEvent(eventId: number, body: {name?: string, description?: string, date?: Date}) {
+    async updateEvent(eventId: number, body: {title?: string, description?: string, date?: Date}) {
         const event = await prisma.event.findUnique({where: {eventId}});
         if(!event){
             throw new QueryError('eventNotFound');
