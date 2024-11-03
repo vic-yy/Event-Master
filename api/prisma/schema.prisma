@@ -15,8 +15,10 @@ model User {
   role            String
   token           String?
   tokenExpiration DateTime?
-  participants    Participant[]
-  user_groups     User_Group[]
+  participants    Participant[]   @relation("UserToParticipant")
+  user_groups     User_Group[]    @relation("UserToGroup")
+  participants2   Participant[]   @relation("EmailToParticipant")
+  user_groups2    User_Group[]    @relation("EmailToGroup")
 }
 
 model Event {
@@ -26,7 +28,7 @@ model Event {
   create_at             DateTime @default(now())
   location              String
   date                  DateTime  
-  participants    	    Participant[]
+  participants    	Participant[]
   event_groups          Event_Group[]
 }
 
@@ -37,8 +39,9 @@ model Participant {
   email           String
   role            String
 
-  user            User         @relation(fields: [userId, email], references: [userId, email], onDelete: Cascade)
-  event           Event        @relation(fields: [eventId], references: [eventId], onDelete: Cascade)
+  user            User     @relation(name: "UserToParticipant", fields: [userId], references: [userId], onDelete: Cascade)
+  em              User     @relation(name: "EmailToParticipant", fields: [email], references: [email], onDelete: Cascade)
+  event           Event    @relation(fields: [eventId], references: [eventId], onDelete: Cascade)
   @@unique([userId, eventId, email])
 }
 
@@ -57,8 +60,9 @@ model User_Group {
   email         String
   role          String
 
-  user         User           @relation(fields: [userId, email], references: [userId, email], onDelete: Cascade)
-  group        Group          @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
+  user          User     @relation(name: "UserToGroup", fields: [userId], references: [userId], onDelete: Cascade)
+  em            User     @relation(name: "EmailToGroup", fields: [email], references: [email], onDelete: Cascade)
+  group         Group          @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
   @@unique([userId, groupId, email])
 }
 
