@@ -5,9 +5,9 @@ dotenv.config();
 import userRouter from './domains/User/controllers/userIndex';
 import eventRouter from './domains/Event/controllers/eventIndex';
 import participantRouter from './domains/Participant/controllers/participantIndex';
-import groupRouter from './domains/Participant/controllers/groupIndex';
-import userGroupRouter from './domains/Participant/controllers/userGroupIndex';
-import eventGroupRouter from './domains/Participant/controllers/eventGroupIndex';
+import groupRouter from './domains/Group/controllers/groupIndex';
+import userGroupRouter from './domains/User_Group/controllers/userGroupIndex';
+import eventGroupRouter from './domains/Event_Group/controllers/eventGroupIndex';
 
 app.use('/api/user', userRouter);
 app.use('/api/event', eventRouter);
