@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CardMedia from '@mui/material/CardMedia';
 import { Event } from '../types/Event'; 
+import { useNavigate } from 'react-router-dom';
+import { getParticipantById } from '../../../services/participant/get';
 
 interface EventDetailsModalProps {
     open: boolean;
@@ -14,7 +16,34 @@ interface EventDetailsModalProps {
   }
 
 const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ open, onClose, event }) => {
-  if (!event) return null; // Retornar null se o evento for null
+  if (!event) return null;
+
+  const navigate = useNavigate();
+  const [participant, setParticipant] = React.useState<{ role: string } | null>(null);
+  const [ok, setOk] = React.useState(false);
+
+  useEffect(() => {
+    const curUserId = localStorage.getItem('userId');
+
+    const fetchEvent = async () => {
+      const fetchedParticipant = await getParticipantById(Number(event.eventId), Number(curUserId));
+      console.log(fetchedParticipant);
+      setParticipant(fetchedParticipant);
+
+
+      if (fetchedParticipant && fetchedParticipant.role == "owner") {
+        setOk(true);
+      } else {
+        setOk(false);
+      }
+    };
+    
+    fetchEvent();
+  }, [event]);
+
+  const handleEdit = () => {
+    navigate(`/eventos/editar/${event.eventId}`);
+  };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
@@ -57,6 +86,17 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ open, onClose, ev
         >
           Inscrever-se
         </Button>
+        {ok &&
+        <Button 
+          onClick={handleEdit} 
+          color="primary" 
+          variant='contained'
+          fullWidth
+          sx={{ marginTop: '16px' }}
+        >
+          
+          Editar
+        </Button>}
       </DialogContent>
       <Button onClick={onClose} color="primary" sx={{ margin: '16px' }}>
         Fechar

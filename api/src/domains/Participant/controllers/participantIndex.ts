@@ -31,6 +31,18 @@ router.get('/getByParticipantId/:participantId', async (req: Request, res: Respo
     }
 });
 
+router.get('/getByUserIdEventId/:userId/:eventId', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const participant = await participantService
+        .getParticipantByUserIdEventId(Number(req.params.userId), Number(req.params.eventId));
+        res.status(statusCodes.SUCCESS).send(participant);
+    } catch (error) {
+        next(error);
+    }
+
+});
+
+
 router.get('/getByUserId/:userId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const participants = await participantService.getParticipantsByUserId(Number(req.params.userId));

@@ -8,7 +8,7 @@ import errorHandler from './middlewares/errorHandler';
 import participantRouter from './domains/Participant/controllers/participantIndex';
 import groupRouter from './domains/Group/controllers/groupIndex';
 import userGroupRouter from './domains/User-Group/controllers/userGroupIndex';
-import groupEventRouter from './domains/Group-Event/controllers/groupEventIndex';
+import groupEventRouter from './domains/Group-Event/controllers/eventGroupIndex';
 
 app.use('/api/user', userRouter);
 app.use('/api/participant', participantRouter);

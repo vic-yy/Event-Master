@@ -6,6 +6,7 @@ import EventList from './Components/EventList';
 import { Event } from './types/Event';
 import EventDetailsModal from './Components/EventDetailsModal'; 
 import './style.css';
+import { getMyself } from '../../services/user/me';
 
 const EventPage = () => {
   const [eventType, setEventType] = useState('');
@@ -18,6 +19,24 @@ const EventPage = () => {
   const [eventData, setEventData] = useState<Event[]>([]); 
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState<string | null>(null); 
+
+  const [logged, setLogged] = useState(false);   
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try{
+        const me = await getMyself();
+        
+        if(me) setLogged(true);
+        else return;
+        
+        localStorage.setItem('userId', me.data.userId);      
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const handleOpenModal = (event: Event) => {
     setSelectedEvent(event);
@@ -69,7 +88,10 @@ const EventPage = () => {
 
   return (
     <div className="event-page">
-      <SearchBar
+      {!logged? 
+      (<div> Forbiden </div>) : 
+      ( <div>
+        <SearchBar
         eventType={eventType}
         setEventType={setEventType}
         eventTime={eventTime}
@@ -96,6 +118,9 @@ const EventPage = () => {
         onClose={handleCloseModal}
         event={selectedEvent}
       />
+      </div>
+      )
+    }
     </div>
   );
 };

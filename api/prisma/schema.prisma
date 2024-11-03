@@ -42,7 +42,7 @@ model Participant {
   role            String
   user            User         @relation(fields: [userId], references: [userId], onDelete: Cascade)
   event           Event        @relation(fields: [eventId], references: [eventId], onDelete: Cascade)
-  @@unique([userId, eventId])
+  @@unique(fields: [userId, eventId], name : "userId_eventId")
 }
 
 model User_Group {
