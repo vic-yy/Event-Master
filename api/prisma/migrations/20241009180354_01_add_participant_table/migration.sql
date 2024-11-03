@@ -6,7 +6,7 @@ CREATE TABLE `Participant` (
     `email` VARCHAR(191) NOT NULL,
     `role` VARCHAR(191) NOT NULL,
 
-    UNIQUE INDEX `user_event_unique` (`userId`, `eventId`, `email`),
+    UNIQUE INDEX `participant_unique` (`userId`, `eventId`),
     PRIMARY KEY (`participantId`),
 
     CONSTRAINT `fk_email` FOREIGN KEY (`email`) REFERENCES `User` (`email`) ON DELETE CASCADE,
