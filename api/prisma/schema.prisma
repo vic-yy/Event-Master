@@ -69,5 +69,5 @@ model Event_Group {
 
   event        Event          @relation(fields: [eventId], references: [eventId], onDelete: Cascade)
   group        Group          @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
-  @@unique([userId, groupId])
+  @@unique([eventId, groupId])
 }
