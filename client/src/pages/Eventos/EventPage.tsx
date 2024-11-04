@@ -7,6 +7,7 @@ import { Event } from './types/Event';
 import EventDetailsModal from './Components/EventDetailsModal'; 
 import './style.css';
 import { getMyself } from '../../services/user/me';
+import { Box, Typography } from '@mui/material';
 
 const EventPage = () => {
   const [eventType, setEventType] = useState('');
@@ -89,7 +90,11 @@ const EventPage = () => {
   return (
     <div className="event-page">
       {!logged? 
-      (<div> Forbiden </div>) : 
+      (<Box className="forb">
+        <Typography variant="h5" color="error">
+          Forbidden
+        </Typography>
+      </Box>) : 
       ( <div>
         <SearchBar
         eventType={eventType}
