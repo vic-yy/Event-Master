@@ -4,7 +4,6 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 
 type EventCardProps = {
   image: string;
@@ -20,11 +19,6 @@ type EventCardProps = {
 };
 
 const EventCard: React.FC<EventCardProps> = ({ image, title, time, location, date, price, category, organizer, onOpenModal }) => {
-
-  const navigate = useNavigate();
-  const handleCreate = () => {
-    navigate(`/eventos/criar`);
-  };
 
   return (
     <Card
@@ -85,16 +79,7 @@ const EventCard: React.FC<EventCardProps> = ({ image, title, time, location, dat
           onClick={onOpenModal}
           sx={{ backgroundColor: '#1976d2' }}
         >
-          Inscrever-se
-        </Button>
-        <Button 
-          variant="contained" 
-          color="primary" 
-          fullWidth
-          onClick={handleCreate}
-          sx={{ backgroundColor: '#1976d2', marginTop: '16px' }}
-        >
-          Criar um evento próprio
+          Mais Detalhes
         </Button>
       </CardContent>
     </Card>
