@@ -9,9 +9,10 @@ const router = Router();
 
 router.post('/create', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        if(req.body.date)
-            isValidDate(req.body.date);
-        else req.body.date = new Date();
+        if(!req.body.date)
+        //    isValidDate(req.body.date);
+        //else
+        req.body.date = new Date();
         
         if(!req.body.title || req.body.title.trim() === '')
             throw new InvalidParamError('missingParam', 'title');

@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { getParticipantById } from "../../services/participant/get";
-import { getEventById } from "../../services/event/get";
+import React, { useState} from "react";
+import { useNavigate} from "react-router-dom";
+import { createParticipant } from "../../services/participant/create";
+import { createEvent } from "../../services/event/create";
 import { Box, TextField, Button, Typography, Container } from "@mui/material";
-import { updateEvent } from "../../services/event/update";
 
-interface EventEdit {
+interface EventCreation {
   id: number;
   description: string;
   title: string;
@@ -18,39 +17,21 @@ interface EventEdit {
   organizer: string;
 }
 
-const EventEditPage = () => {
-  const [ok, setOk] = useState(false);
-  const { id } = useParams();
-  const [event, setEvent] = useState<EventEdit | null>(null);
-
+const EventCreationPage = () => {
+    const [event, setEvent] = useState<EventCreation>({
+        id: 0,
+        description: '',
+        title: '',
+        image: '',
+        time: '',
+        location: '',
+        date: '',
+        price: 0,
+        category: '',
+        organizer: '',
+      });
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!id) return;
-    const curUserId = localStorage.getItem("userId");
-
-    const fetchEvent = async () => {
-      try {
-        let response = await getEventById(Number(id));
-
-        response.date = response.date.split("T")[0];
-        setEvent(response);
-
-        const participant = await getParticipantById(Number(curUserId), Number(id));
-        console.log(participant)  
-
-        if (participant && participant.role == "owner") {
-          setOk(true);
-        } else {
-          setOk(false);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchEvent();
-  }, [id]);
-
+    // Atualiza os dados sempre que o usuário altera o formulário.
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setEvent((prevEvent) => {
@@ -64,34 +45,55 @@ const EventEditPage = () => {
     });
   };
 
+    // Envia os dados no formulário para atualizar o evento.
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!event) return;
+        e.preventDefault();
+        
+        if (!event) return;
+      
+        const body = {
+          title: event?.title,
+          description: event?.description,
+          image: event?.image,
+          time: event?.time,
+          location: event?.location,
+          date: new Date(event?.date + 'T' + event?.time + 'Z').toISOString(),
+          price: String(event?.price),
+          category: event?.category,
+          organizer: event?.organizer
+        };
 
-    const body = {
-      title: event?.title,
-      description: event?.description,
-      image: event?.image,
-      time: event?.time,
-      location: event?.location,
-      date: new Date(event?.date + 'T' + event?.time + 'Z').toISOString(),
-      price: String(event?.price),
-      category: event?.category,
-    };
-
-    console.log(body);
-
-    try {
-      const res = await updateEvent(Number(id), body);
-      console.log("Evento atualizado com sucesso!");
-      console.log(res);
-      alert("Evento atualizado com sucesso!");
-      navigate("/eventos");
-    } catch (error) {
-      console.error(error);
-    }
-  };
+        console.log(body);
+      
+        try {
+          // Cria o evento e obtém o eventId do resultado
+          const res = await createEvent(body);
+          const eventId = res.data.eventId;  // Assume que res contém o eventId retornado pelo servidor
+          console.log("Evento criado com sucesso!");
+          console.log(res);
+      
+          // Obtém o userId do localStorage
+          const userId = localStorage.getItem("userId");
+      
+          if (userId && eventId) {
+            // Cria um participante para o evento
+            const participantBody = {
+              userId: Number(userId),
+              eventId: Number(eventId),
+              role: "owner" // Define o papel do usuário no evento, por exemplo "owner"
+            };
+            
+            await createParticipant(participantBody);
+            console.log("Participante criado com sucesso!");
+          }
+      
+          alert("Evento e participante criados com sucesso!");
+          navigate("/eventos");
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      
 
   return (
     <Container
@@ -105,7 +107,7 @@ const EventEditPage = () => {
         minWidth: '100vw',
       }}
     >
-      {ok ? (
+
         <Box
           component="form"
           onSubmit={handleSubmit}
@@ -138,7 +140,7 @@ const EventEditPage = () => {
 
             </Box>
             <Typography variant="h4" gutterBottom>
-              Edit Event
+              Create Event
             </Typography>
           </Box>
           {event && (
@@ -185,6 +187,14 @@ const EventEditPage = () => {
                 fullWidth
               />
               <TextField
+                label="Organizador"
+                name="organizer"
+                value={event.organizer}
+                onChange={handleChange}
+                required
+                fullWidth
+              />
+              <TextField
                 label="Data"
                 type="date"
                 name="date"
@@ -216,7 +226,7 @@ const EventEditPage = () => {
                 fullWidth
               />
               <Button variant="contained" color="primary" type="submit">
-                Salvar Mudanças
+                Salvar
               </Button>
               <Button
                 variant="contained"
@@ -228,13 +238,9 @@ const EventEditPage = () => {
             </>
           )}
         </Box>
-      ) : (
-        <Typography variant="h5" color="error">
-          Forbidden
-        </Typography>
-      )}
+
     </Container>
   );
 };
 
-export default EventEditPage;
+export default EventCreationPage;

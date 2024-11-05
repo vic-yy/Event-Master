@@ -19,9 +19,6 @@ type EventCardProps = {
 };
 
 const EventCard: React.FC<EventCardProps> = ({ image, title, time, location, date, price, category, organizer, onOpenModal }) => {
-  const handleSubscribe = () => {
-    console.log(`Inscrito no evento: ${title}`);
-  };
 
   return (
     <Card
@@ -79,10 +76,10 @@ const EventCard: React.FC<EventCardProps> = ({ image, title, time, location, dat
           variant="contained" 
           color="primary" 
           fullWidth
-          onClick={handleSubscribe}
+          onClick={onOpenModal}
           sx={{ backgroundColor: '#1976d2' }}
         >
-          Inscrever-se
+          Mais Detalhes
         </Button>
       </CardContent>
     </Card>

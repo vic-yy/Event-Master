@@ -85,13 +85,22 @@ export function notLoggedInMiddleware(req: Request, res: Response, next: NextFun
     try {
         const token = cookieExtractor(req);
 
-        console.log(token)
+        console.log(token);
 
         if (token) {
-            const decoded = verify(token, process.env.JWT_SECRET || '');
-            if (decoded) {
-				console.log("Usuário já está logado:", decoded);
-                throw new LoginError('alreadyLoggedIn');
+            try {
+                const decoded = verify(token, process.env.JWT_SECRET || '');
+                if (decoded) {
+                    console.log("Usuário já está logado:", decoded);
+                    throw new LoginError('alreadyLoggedIn');
+                }
+            } catch (error: any) {
+                // Se o erro for de expiração do token, ignoramos e continuamos
+                if (error.name === 'TokenExpiredError') {
+                    console.log("Token expirado, permitindo acesso não logado.");
+                } else {
+                    throw error; // Para outros erros, lançamos a exceção
+                }
             }
         }
         next();
