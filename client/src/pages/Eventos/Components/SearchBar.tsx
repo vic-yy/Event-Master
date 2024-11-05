@@ -98,7 +98,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
       {/* Botão de busca */}
       <button className="search-button">Buscar Evento</button>
-      <button className="search-button" onClick={handleCreate}>Criar um Evento</button>
+      <button className="create-button" onClick={handleCreate}>Criar um Evento</button>
     </div>
   );
 };
