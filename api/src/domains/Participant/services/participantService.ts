@@ -14,7 +14,7 @@ class ParticipantService {
   }
 
   async getParticipantByUserIdEventId(userId: number, eventId: number) {
-    const participant = await prisma.participant.findUnique({where: {userId_eventId: {userId, eventId}}});
+    const participant = await prisma.participant.findUnique({where: {userId_eventId: {userId: userId, eventId: eventId}}});
     if(!participant){
         throw new QueryError('participantNotFound');
     }
