@@ -36,7 +36,7 @@ const EventEditPage = () => {
         response.date = response.date.split("T")[0];
         setEvent(response);
 
-        const participant = await getParticipantById(Number(id), Number(curUserId));
+        const participant = await getParticipantById(Number(curUserId), Number(id));
         console.log(participant)  
 
         if (participant && participant.role == "owner") {
