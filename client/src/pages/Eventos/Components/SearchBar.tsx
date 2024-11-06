@@ -25,6 +25,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   setEndDate,
 }) => {
   const navigate = useNavigate();
+  
   const handleCreate = () => {
     navigate(`/eventos/criar`);
   };
@@ -42,8 +43,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
     { label: 'Tarde (12:00 - 18:00)', value: 'afternoon' },
     { label: 'Noite (18:00 - 23:00)', value: 'evening' },
   ];
-
-  const navigate = useNavigate();
 
   const leaveHandle = async () => {
     try{
