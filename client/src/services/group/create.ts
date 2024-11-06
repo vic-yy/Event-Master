@@ -7,5 +7,5 @@ interface ICreateGroup{
 
 
 export async function createGroup(body: ICreateGroup) {
-    return await api.post(/group/create, body)
+    return await api.post(`/group/create`, body)
 }
