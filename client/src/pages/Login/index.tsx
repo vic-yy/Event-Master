@@ -7,12 +7,19 @@ import {
     Typography,
     Grid
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../services/user/login';
     
   export default function Login() {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('userId');
+        if(token){
+            navigate('/eventos');
+        }
+    }, []);
 
     async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -27,7 +34,7 @@ import { login } from '../../services/user/login';
 
             await login(bodyRequest);
             alert("Login efetuado com sucesso!");
-            // navigate('/dashboard');
+            navigate('/eventos');
         }catch(err : any){
             const response = err.response;
             console.log(response)

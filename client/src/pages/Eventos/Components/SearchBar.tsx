@@ -1,4 +1,6 @@
+import { Button } from '@mui/material';
 import React from 'react';
+import { logout } from '../../../services/user/logout';
 import { useNavigate } from 'react-router-dom';
 
 interface SearchBarProps {
@@ -40,6 +42,20 @@ const SearchBar: React.FC<SearchBarProps> = ({
     { label: 'Tarde (12:00 - 18:00)', value: 'afternoon' },
     { label: 'Noite (18:00 - 23:00)', value: 'evening' },
   ];
+
+  const navigate = useNavigate();
+
+  const leaveHandle = async () => {
+    try{
+      await logout();
+      localStorage.removeItem('userId');
+      alert("Saindo...");
+      navigate('/login')
+    }
+    catch(err : any){
+      alert("Erro ao sair");
+    }
+  }
 
   return (
     <div className="search-bar">
@@ -99,6 +115,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
       {/* Botão de busca */}
       <button className="search-button">Buscar Evento</button>
       <button className="create-button" onClick={handleCreate}>Criar um Evento</button>
+      <button id="leavebtn" onClick={leaveHandle}>Sair</button>
+
     </div>
   );
 };
