@@ -24,6 +24,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
   endDate,
   setEndDate,
 }) => {
+  const navigate = useNavigate();
+  const handleCreate = () => {
+    navigate(`/eventos/criar`);
+  };
   const eventTypes = [
     { label: 'Palestra', value: 'Palestra' },
     { label: 'Competição', value: 'Competição' },
@@ -109,8 +113,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
       </div>
 
       {/* Botão de busca */}
-      <button className="search-button">+ Adicionar Evento</button>
+      <button className="search-button">Buscar Evento</button>
+      <button className="create-button" onClick={handleCreate}>Criar um Evento</button>
       <button id="leavebtn" onClick={leaveHandle}>Sair</button>
+
     </div>
   );
 };

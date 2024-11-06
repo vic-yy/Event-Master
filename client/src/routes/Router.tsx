@@ -4,6 +4,7 @@ import Login from '../pages/Login'
 import Cadastro from '../pages/Cadastro'
 import EventPage from '../pages/Eventos/EventPage'
 import EventEditPage from '../pages/Eventos/EventEditPage'
+import EventCreationPage from '../pages/Eventos/EventCreationPage'
 
 export function Router(){
     return(
@@ -14,6 +15,7 @@ export function Router(){
                 <Route path='/cadastro' element={ <Cadastro />}/>
                 <Route path='/eventos' element={ <EventPage />}/>
                 <Route path='/eventos/editar/:id' element={ <EventEditPage />}/>
+                <Route path='/eventos/criar' element={ <EventCreationPage />}/>
             </Routes>
         </BrowserRouter>
     )

@@ -8,6 +8,7 @@ import CardMedia from '@mui/material/CardMedia';
 import { Event } from '../types/Event'; 
 import { useNavigate } from 'react-router-dom';
 import { getParticipantById } from '../../../services/participant/get';
+import { createParticipant } from "../../../services/participant/create";
 
 interface EventDetailsModalProps {
     open: boolean;
@@ -26,7 +27,7 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ open, onClose, ev
     const curUserId = localStorage.getItem('userId');
 
     const fetchEvent = async () => {
-      const fetchedParticipant = await getParticipantById(Number(event.eventId), Number(curUserId));
+      const fetchedParticipant = await getParticipantById(Number(curUserId), Number(event.eventId));
       console.log(fetchedParticipant);
       setParticipant(fetchedParticipant);
 
@@ -40,6 +41,24 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ open, onClose, ev
     
     fetchEvent();
   }, [event]);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const eventId = event.eventId;
+    const userId = localStorage.getItem("userId");
+
+    if (userId && eventId) {
+      // Cria um participante para o evento
+      const participantBody = {
+        userId: Number(userId),
+        eventId: Number(eventId),
+        role: "admin" // Define o papel do usuário no evento, por exemplo "owner"
+      };
+      
+      await createParticipant(participantBody);
+    }
+    console.log(`Inscrito no evento: ${event.title}`);
+  };
 
   const handleEdit = () => {
     navigate(`/eventos/editar/${event.eventId}`);
@@ -81,7 +100,7 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ open, onClose, ev
           variant="contained" 
           color="primary" 
           fullWidth 
-          onClick={() => console.log(`Inscrito no evento: ${event.title}`)}
+          onClick={handleSubscribe}
           sx={{ marginTop: '16px' }}
         >
           Inscrever-se
