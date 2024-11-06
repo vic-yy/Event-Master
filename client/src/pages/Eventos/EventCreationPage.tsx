@@ -1,6 +1,10 @@
 import React, { useState} from "react";
 import { useNavigate} from "react-router-dom";
 import { createParticipant } from "../../services/participant/create";
+import { createGroup } from "../../services/group/create";
+import { createEventGroup } from "../../services/eventGroup/create";
+import { createUserGroup } from "../../services/userGroup/create";
+import { getGroupByTitle } from "../../services/group/get";
 import { createEvent } from "../../services/event/create";
 import { Box, TextField, Button, Typography, Container } from "@mui/material";
 
@@ -66,6 +70,7 @@ const EventCreationPage = () => {
         console.log(body);
       
         try {
+          X = await getGroupByTitle(body: {title: body.category});
           // Cria o evento e obtém o eventId do resultado
           const res = await createEvent(body);
           const eventId = res.data.eventId;  // Assume que res contém o eventId retornado pelo servidor
@@ -84,7 +89,25 @@ const EventCreationPage = () => {
             };
             
             await createParticipant(participantBody);
-            console.log("Participante criado com sucesso!");
+            if(!X){
+const str = "..."
+const res2 = await createGroup(body.category, str);
+          const groupId = res2.data.groupId
+          console.log("Categoria criada com sucesso!");
+          console.log(res2);
+          if (userId && groupId && eventId) {
+            // Cria um objeto Categoria-Usuário
+            const relationBody = {
+              userId: Number(userId),
+              groupId: Number(groupId),
+              role: "owner"};
+            const relation2Body = {
+              eventId: Number(eventId),
+              groupId: Number(groupId)};
+            
+            await createGroupUser(relationBody);
+            await createGroupEvent(relation2Body);
+            }
           }
       
           alert("Evento e participante criados com sucesso!");
@@ -107,8 +130,7 @@ const EventCreationPage = () => {
         minWidth: '100vw',
       }}
     >
-
-        <Box
+    <Box
           component="form"
           onSubmit={handleSubmit}
           sx={{
