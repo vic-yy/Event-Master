@@ -70,7 +70,7 @@ const EventCreationPage = () => {
         console.log(body);
       
         try {
-          X = await getGroupByTitle(body: {title: body.category});
+          const X = await getGroupByTitle(body.category);
           // Cria o evento e obtém o eventId do resultado
           const res = await createEvent(body);
           const eventId = res.data.eventId;  // Assume que res contém o eventId retornado pelo servidor
@@ -90,25 +90,25 @@ const EventCreationPage = () => {
             
             await createParticipant(participantBody);
             if(!X){
-const str = "..."
-const res2 = await createGroup(body.category, str);
-          const groupId = res2.data.groupId
-          console.log("Categoria criada com sucesso!");
-          console.log(res2);
-          if (userId && groupId && eventId) {
-            // Cria um objeto Categoria-Usuário
-            const relationBody = {
-              userId: Number(userId),
-              groupId: Number(groupId),
-              role: "owner"};
+          const str = "..."
+          const res2 = await createGroup({title: body.category, description: str});
+          const groupId = res2.data.groupId
+          console.log("Categoria criada com sucesso!");
+          console.log(res2);
+          if (userId && groupId && eventId) {
+            // Cria um objeto Categoria-Usuário
+            const relationBody = {
+              userId: Number(userId),
+              groupId: Number(groupId),
+              role: "owner"};
             const relation2Body = {
               eventId: Number(eventId),
               groupId: Number(groupId)};
-            
-            await createGroupUser(relationBody);
-            await createGroupEvent(relation2Body);
+            await createUserGroup(relationBody);
+            await createEventGroup(relation2Body);
             }
           }
+        }
       
           alert("Evento e participante criados com sucesso!");
           navigate("/eventos");
