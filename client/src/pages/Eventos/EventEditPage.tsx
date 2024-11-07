@@ -2,8 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getParticipantById } from "../../services/participant/get";
 import { getEventById } from "../../services/event/get";
+import { createGroup } from "../../services/group/create";
+import { deleteEvent } from "../../services/event/delete";
+import { deleteEventGroup } from "../../services/eventGroup/delete";
+import { deleteParticipant } from "../../services/participant/delete";
+import { getEventGroupByEventId } from "../../services/eventGroup/get";
+import { getParticipantByEventId } from "../../services/participant/gett";
+import { createEventGroup } from "../../services/eventGroup/create";
+import { createUserGroup } from "../../services/userGroup/create";
+import { getGroupByTitle } from "../../services/group/get";
 import { Box, TextField, Button, Typography, Container } from "@mui/material";
 import { updateEvent } from "../../services/event/update";
+
+import ImageSelectorModal from "./Components/ImageSelectorModal";
 
 interface EventEdit {
   id: number;
@@ -22,6 +33,8 @@ const EventEditPage = () => {
   const [ok, setOk] = useState(false);
   const { id } = useParams();
   const [event, setEvent] = useState<EventEdit | null>(null);
+  const [openImageSelector, setOpenImageSelector] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
 
   const navigate = useNavigate();
 
@@ -37,13 +50,16 @@ const EventEditPage = () => {
         setEvent(response);
 
         const participant = await getParticipantById(Number(curUserId), Number(id));
-        console.log(participant)  
-
+        console.log(participant) 
+        
         if (participant && participant.role == "owner") {
           setOk(true);
         } else {
           setOk(false);
         }
+
+        setSelectedImage(event == null ? "" : event.image);
+
       } catch (error) {
         console.error(error);
       }
@@ -62,6 +78,50 @@ const EventEditPage = () => {
       }
       return prevEvent;
     });
+  };
+
+  const handleDeletion = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!event) return;
+
+    const body = {
+      title: event?.title,
+      description: event?.description,
+      image: event?.image,
+      time: event?.time,
+      location: event?.location,
+      date: new Date(event?.date + 'T' + event?.time + 'Z').toISOString(),
+      price: String(event?.price),
+      category: event?.category,
+    };
+
+    console.log(body);
+
+    try {
+      const eventId = Number(id);
+      const res = await deleteEvent(eventId);
+      try {
+        const X = await getEventGroupByEventId(eventId);
+        const Y = await getParticipantByEventId(eventId);
+        for(let item of X){
+          const del = item.data.event_groupId;
+          await deleteEventGroup(del);
+        }
+        for(let item of Y){
+          const del = item.data.participantId;
+          await deleteParticipant(del);
+        }
+      } catch (error){
+        console.error(error);
+      }
+      console.log("Evento deletado com sucesso!");
+      console.log(res);
+      alert("Evento deletado com sucesso!");
+      navigate("/eventos");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -83,7 +143,29 @@ const EventEditPage = () => {
     console.log(body);
 
     try {
-      const res = await updateEvent(Number(id), body);
+      const X = await getGroupByTitle(body.category);
+      const eventId = Number(id);
+      const userId = localStorage.getItem("userId");
+      const res = await updateEvent(eventId, body);
+      if(X.data.title != body.category){
+              const str = "..."
+              const res2 = await createGroup({title: body.category, description: str});
+              const groupId = res2.data.groupId
+              console.log("Categoria criada com sucesso!");
+              console.log(res2);
+              if (userId && groupId && eventId) {
+                // Cria um objeto Categoria-Usuário
+                const relationBody = {
+                  userId: Number(userId),
+                  groupId: Number(groupId),
+                  role: "owner"};
+                const relation2Body = {
+                  eventId: Number(eventId),
+                  groupId: Number(groupId)};
+                await createUserGroup(relationBody);
+                await createEventGroup(relation2Body);
+              }
+      }
       console.log("Evento atualizado com sucesso!");
       console.log(res);
       alert("Evento atualizado com sucesso!");
@@ -92,6 +174,28 @@ const EventEditPage = () => {
       console.error(error);
     }
   };
+
+  const handleOpenModalSelectImage = () => {
+    setOpenImageSelector(true);
+  };
+
+  const handleCloseModalSelectImage = () => {
+    setOpenImageSelector(false);
+  };
+
+  const handleImageSelect = (image: string) => {
+    setSelectedImage(image);
+    setEvent((prevEvent) => {
+      if (prevEvent) {
+        return {
+          ...prevEvent,
+          image,
+        };
+      }
+      return prevEvent;
+    });
+    setOpenImageSelector(false);
+  }
 
   return (
     <Container
@@ -158,15 +262,32 @@ const EventEditPage = () => {
                 onChange={handleChange}
                 required
                 fullWidth
+                multiline
               />
               <TextField
-                label="URL Público da Imagem"
+                label="Imagem"
                 name="image"
                 value={event.image}
-                onChange={handleChange}
-                required
-                fullWidth
+                // onChange={handleChange}
+                // required
+                disabled
+                // fullWidth
               />
+              <Button 
+                variant="contained"
+                color="primary"
+                onClick={handleOpenModalSelectImage}
+              >
+                Escolher Imagem
+              </Button>
+
+              <ImageSelectorModal
+                open={openImageSelector}
+                onClose={handleCloseModalSelectImage}
+                onSelect={handleImageSelect}
+
+              />
+
               <TextField
                 label="Horário"
                 type="time"
@@ -217,6 +338,13 @@ const EventEditPage = () => {
               />
               <Button variant="contained" color="primary" type="submit">
                 Salvar Mudanças
+              </Button>
+              <Button
+                variant="contained"
+                style={{ backgroundColor: 'red', color: 'white' }}
+                onClick={handleDeletion}
+              >
+                Deletar Evento
               </Button>
               <Button
                 variant="contained"
