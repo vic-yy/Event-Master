@@ -14,6 +14,8 @@ import { getGroupByTitle } from "../../services/group/get";
 import { Box, TextField, Button, Typography, Container } from "@mui/material";
 import { updateEvent } from "../../services/event/update";
 
+import ImageSelectorModal from "./Components/ImageSelectorModal";
+
 interface EventEdit {
   id: number;
   description: string;
@@ -31,6 +33,8 @@ const EventEditPage = () => {
   const [ok, setOk] = useState(false);
   const { id } = useParams();
   const [event, setEvent] = useState<EventEdit | null>(null);
+  const [openImageSelector, setOpenImageSelector] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
 
   const navigate = useNavigate();
 
@@ -46,13 +50,16 @@ const EventEditPage = () => {
         setEvent(response);
 
         const participant = await getParticipantById(Number(curUserId), Number(id));
-        console.log(participant)  
-
+        console.log(participant) 
+        
         if (participant && participant.role == "owner") {
           setOk(true);
         } else {
           setOk(false);
         }
+
+        setSelectedImage(event == null ? "" : event.image);
+
       } catch (error) {
         console.error(error);
       }
@@ -168,6 +175,28 @@ const EventEditPage = () => {
     }
   };
 
+  const handleOpenModalSelectImage = () => {
+    setOpenImageSelector(true);
+  };
+
+  const handleCloseModalSelectImage = () => {
+    setOpenImageSelector(false);
+  };
+
+  const handleImageSelect = (image: string) => {
+    setSelectedImage(image);
+    setEvent((prevEvent) => {
+      if (prevEvent) {
+        return {
+          ...prevEvent,
+          image,
+        };
+      }
+      return prevEvent;
+    });
+    setOpenImageSelector(false);
+  }
+
   return (
     <Container
       maxWidth="md"
@@ -233,15 +262,32 @@ const EventEditPage = () => {
                 onChange={handleChange}
                 required
                 fullWidth
+                multiline
               />
               <TextField
-                label="URL Público da Imagem"
+                label="Imagem"
                 name="image"
                 value={event.image}
-                onChange={handleChange}
-                required
-                fullWidth
+                // onChange={handleChange}
+                // required
+                disabled
+                // fullWidth
               />
+              <Button 
+                variant="contained"
+                color="primary"
+                onClick={handleOpenModalSelectImage}
+              >
+                Escolher Imagem
+              </Button>
+
+              <ImageSelectorModal
+                open={openImageSelector}
+                onClose={handleCloseModalSelectImage}
+                onSelect={handleImageSelect}
+
+              />
+
               <TextField
                 label="Horário"
                 type="time"
