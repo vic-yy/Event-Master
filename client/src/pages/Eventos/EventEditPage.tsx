@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getParticipantById } from "../../services/participant/get";
 import { getEventById } from "../../services/event/get";
+import { createGroup } from "../../services/group/create";
+import { createEventGroup } from "../../services/eventGroup/create";
+import { createUserGroup } from "../../services/userGroup/create";
+import { getGroupByTitle } from "../../services/group/get";
 import { Box, TextField, Button, Typography, Container } from "@mui/material";
 import { updateEvent } from "../../services/event/update";
 
@@ -83,7 +87,29 @@ const EventEditPage = () => {
     console.log(body);
 
     try {
-      const res = await updateEvent(Number(id), body);
+      const X = await getGroupByTitle(body.category);
+      const eventId = Number(id);
+      const userId = localStorage.getItem("userId");
+      const res = await updateEvent(eventId, body);
+      if(X.data.title != body.category){
+              const str = "..."
+              const res2 = await createGroup({title: body.category, description: str});
+              const groupId = res2.data.groupId
+              console.log("Categoria criada com sucesso!");
+              console.log(res2);
+              if (userId && groupId && eventId) {
+                // Cria um objeto Categoria-Usuário
+                const relationBody = {
+                  userId: Number(userId),
+                  groupId: Number(groupId),
+                  role: "owner"};
+                const relation2Body = {
+                  eventId: Number(eventId),
+                  groupId: Number(groupId)};
+                await createUserGroup(relationBody);
+                await createEventGroup(relation2Body);
+              }
+      }
       console.log("Evento atualizado com sucesso!");
       console.log(res);
       alert("Evento atualizado com sucesso!");
