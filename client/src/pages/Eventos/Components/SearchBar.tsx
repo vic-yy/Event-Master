@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import React from 'react';
 import { logout } from '../../../services/user/logout';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface SearchBarProps {
   eventType: string;
@@ -25,10 +25,20 @@ const SearchBar: React.FC<SearchBarProps> = ({
   setEndDate,
 }) => {
   const navigate = useNavigate();
-  
+  const location = useLocation();
+
   const handleCreate = () => {
     navigate(`/eventos/criar`);
   };
+
+  const handleToggleEvents = () => {
+    if (location.pathname === '/eventos/meus_eventos') {
+      navigate(`/eventos`);
+    } else {
+      navigate(`/eventos/meus_eventos`);
+    }
+  };
+
   const eventTypes = [
     { label: 'Palestra', value: 'Palestra' },
     { label: 'Competição', value: 'Competição' },
@@ -45,16 +55,15 @@ const SearchBar: React.FC<SearchBarProps> = ({
   ];
 
   const leaveHandle = async () => {
-    try{
+    try {
       await logout();
       localStorage.removeItem('userId');
       alert("Saindo...");
-      navigate('/login')
-    }
-    catch(err : any){
+      navigate('/login');
+    } catch (err: any) {
       alert("Erro ao sair");
     }
-  }
+  };
 
   return (
     <div className="search-bar">
@@ -79,10 +88,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
         <label>Horário</label>
         <select 
           value={eventTime} 
-          onChange={(e) => {setEventTime(e.target.value);
+          onChange={(e) => {
+            setEventTime(e.target.value);
             console.log("Horário selecionado:", e.target.value);
-          }
-          }
+          }}
         >
           <option value="">Selecione um horário</option>
           {timeRanges.map((range) => (
@@ -111,9 +120,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
         </div>
       </div>
 
-      {/* Botão de busca */}
-      <button className="search-button">Buscar Evento</button>
+      {/* Botões */}
       <button className="create-button" onClick={handleCreate}>Criar um Evento</button>
+      <button className="show-button" onClick={handleToggleEvents}>
+        {location.pathname === '/eventos/meus_eventos' ? 'Mostrar Todos' : 'Mostrar Meus Eventos'}
+      </button>
       <button id="leavebtn" onClick={leaveHandle}>Sair</button>
 
     </div>
