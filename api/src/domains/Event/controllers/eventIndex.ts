@@ -7,14 +7,15 @@ import { InvalidParamError } from "../../../../errors/InvalidParamError";
 
 const router = Router();
 
-// router.get('/search/:eventTitle', async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//         const events = await eventService.getEventByTitle(req.params.eventTitle);
-//         res.status(statusCodes.SUCCESS).json(events);
-//     } catch (error) {
-//         next(error);
-//     }
-// });
+router.get('/search/:eventTitle', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const events = await eventService.getEventByTitle(req.params.eventTitle);
+        console.log(events);
+        res.status(statusCodes.SUCCESS).json(events);
+    } catch (error) {
+        next(error);
+    }
+});
 
 router.post('/create', async (req: Request, res: Response, next: NextFunction) => {
     try {

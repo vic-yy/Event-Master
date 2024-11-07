@@ -8,13 +8,14 @@ import EventDetailsModal from './Components/EventDetailsModal';
 import './style.css';
 import { getMyself } from '../../services/user/me';
 
-import { List, ListItem, ListItemText, Box, Typography, TextField, InputAdornment, IconButton, Divider, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { List, ListItem, ListItemText, Box, Typography, TextField, InputAdornment, IconButton, Divider, Dialog, DialogContent, DialogTitle, Button } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import { logout } from '../../services/user/logout';
 import { useNavigate } from 'react-router-dom';
 import { getAll } from '../../services/event/get';
+import { updateMainData } from '../../services/user/update';
 
 const EventPage = () => {
   const [eventType, setEventType] = useState('');
@@ -98,8 +99,27 @@ const EventPage = () => {
 
   const [openDialog, setOpenDialog] = useState(false);
 
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
+  interface UserMySelfProps {
+    userId: number; 
+    name: string;
+    email: string; 
+    role: string;
+  };
+
+  // Edit user data
+  const [user, setUser] = useState<UserMySelfProps | null>(null);
+
+  const handleOpenDialog = async () => {
+
+    try {
+      const userContent = await getMyself();
+      setUser(userContent.data);
+      setOpenDialog(true);
+    } catch (error) {
+      alert("Erro ao buscar dados do usuário");
+      console.error("Error fetching user data:", error);
+    }
+
   };
 
   const handleCloseDialog = () => {
@@ -109,21 +129,35 @@ const EventPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [events, setEvents] = useState<Event[]>([]);
   const [debouncedQuery, setDebouncedQuery] = useState(searchQuery);
+
+  const [mainEvents, setMainEvents] = useState<Event[]>([]);
   
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try{
+        const response = await getAll();
+        setMainEvents(response);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
   useEffect(() => {
       const handler = setTimeout(() => {
           setDebouncedQuery(searchQuery);
       }, 20);
       return () => clearTimeout(handler);
   }, [searchQuery]);
-  
+
   useEffect(() => {
       const fetchEvents = async () => {
           if (debouncedQuery.trim()) {
               try {
-                  const response = await axios.get('http://localhost:3030/api/event/getAll');
                   
-                  const results = response.data.filter((event: Event) => {
+                  const results = mainEvents.filter((event: Event) => {
                     return (debouncedQuery) && event.title.toLowerCase().includes(debouncedQuery.toLowerCase());
                   });
                   setEvents(results);
@@ -156,6 +190,25 @@ const EventPage = () => {
       console.error(error);
     }
   }
+
+  const handleUpdateAccount = async () => {
+    try {
+
+      const body = {
+        name: user?.name,
+        email: user?.email
+      }
+
+      if(user?.userId) await updateMainData(user?.userId, body);
+      else throw new Error("UserID not found"); 
+      
+      alert("Dados do usuário atualizados com sucesso!");
+      handleCloseDialog();
+    } catch (error) {
+      alert("Erro ao atualizar dados do usuário");
+      console.error("Error updating user data:", error);
+    }
+  };
 
   return (
     <Box>
@@ -329,8 +382,48 @@ const EventPage = () => {
                 </IconButton>
               </DialogTitle>
 
-              <DialogContent>
+              <DialogContent
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 2,
+                  padding: '40px 20px 40px 20px',
+                }}
+              >
               
+                <TextField
+                  label="Nome"
+                  value={user?.name}
+                  fullWidth
+                  sx={{ marginTop: 2 }}
+                />
+
+                <TextField
+                  label="Email"
+                  value={user?.email}
+                  fullWidth
+                />
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  sx={{ marginTop: 2 }}
+                  onClick={handleUpdateAccount}
+                >
+                  Salvar
+                </Button>
+
+                <Button
+                  variant="contained"
+                  color="error"
+                  fullWidth
+                  sx={{ marginTop: 2 }}
+                  onClick={handleCloseDialog}
+                >
+                  Voltar 
+                </Button>
+
               </DialogContent>
 
             </Dialog>

@@ -3,15 +3,15 @@ import prisma from '../../../../database/prismaClient';
 import { QueryError } from '../../../../errors/QueryError';
 
 class EventService {
-    // async getEventByTitle(eventTitle: string) {
-    //     return await prisma.event.findMany({
-    //         where: {
-    //             title: {
-    //                 contains: eventTitle
-    //             },
-    //         },
-    //     });
-    // }
+    async getEventByTitle(eventTitle: string) {
+        return await prisma.event.findMany({
+            where: {
+                title: {
+                    contains: eventTitle
+                },
+            },
+        });
+    }
 
     async createEvent(body: {title: string, description: string, location: string, date: Date, image: string, time: string, price: string, category: string, organizer: string}) {
         const newEvent = await prisma.event.create({
