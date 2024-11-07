@@ -21,6 +21,7 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ open, onClose, ev
 
   const navigate = useNavigate();
   const [participant, setParticipant] = React.useState<{ role: string } | null>(null);
+  const [pok, setPok] = React.useState(false);
   const [ok, setOk] = React.useState(false);
 
   useEffect(() => {
@@ -32,10 +33,15 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ open, onClose, ev
       setParticipant(fetchedParticipant);
 
 
-      if (fetchedParticipant && fetchedParticipant.role == "owner") {
-        setOk(true);
+      if (fetchedParticipant) {
+        setPok(true);
+        if (fetchedParticipant.role == "owner"){
+          setOk(true);
+        } else {
+          setOk(false);
+        }
       } else {
-        setOk(false);
+        setPok(false);
       }
     };
     
@@ -57,6 +63,7 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ open, onClose, ev
       
       await createParticipant(participantBody);
     }
+    window.location.reload();
     console.log(`Inscrito no evento: ${event.title}`);
   };
 
@@ -96,6 +103,7 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ open, onClose, ev
         <Typography variant="body2" color="textSecondary" style={{ marginTop: '16px', marginBottom: '16px' }}>
           {event.description}
         </Typography>
+        {!pok &&
         <Button 
           variant="contained" 
           color="primary" 
@@ -104,7 +112,16 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ open, onClose, ev
           sx={{ marginTop: '16px' }}
         >
           Inscrever-se
-        </Button>
+        </Button>}
+        {pok &&
+        <Button 
+          variant="contained" 
+          color="primary" 
+          fullWidth 
+          sx={{ marginTop: '16px' }}
+        >
+          Inscrito
+        </Button>}
         {ok &&
         <Button 
           onClick={handleEdit} 
