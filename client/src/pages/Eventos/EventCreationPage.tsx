@@ -87,7 +87,7 @@ const EventCreationPage = () => {
             console.log("Participante criado com sucesso!");
           }
       
-          alert("Evento e participante criados com sucesso!");
+          alert("Evento criado com sucesso!");
           navigate("/eventos");
         } catch (error) {
           console.error(error);
