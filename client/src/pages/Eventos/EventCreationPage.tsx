@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createParticipant } from "../../services/participant/create";
+import { createGroup } from "../../services/group/create";
+import { createEventGroup } from "../../services/eventGroup/create";
+import { createUserGroup } from "../../services/userGroup/create";
+import { getGroupByTitle } from "../../services/group/get";
 import { createEvent } from "../../services/event/create";
 import { Box, TextField, Button, Typography, Container } from "@mui/material";
 import ImageSelectorModal from "./Components/ImageSelectorModal";
@@ -71,9 +75,10 @@ const EventCreationPage = () => {
     console.log(body);
 
     try {
+      const X = await getGroupByTitle(body.category);
       // Cria o evento e obtém o eventId do resultado
       const res = await createEvent(body);
-      const eventId = res.data.eventId; // Assume que res contém o eventId retornado pelo servidor
+      const eventId = res.data.eventId;  // Assume que res contém o eventId retornado pelo servidor
       console.log("Evento criado com sucesso!");
       console.log(res);
 
@@ -85,19 +90,37 @@ const EventCreationPage = () => {
         const participantBody = {
           userId: Number(userId),
           eventId: Number(eventId),
-          role: "owner", // Define o papel do usuário no evento, por exemplo "owner"
+          role: "owner" // Define o papel do usuário no evento, por exemplo "owner"
         };
 
         await createParticipant(participantBody);
-        console.log("Participante criado com sucesso!");
+        if(X.data.title != body.category){
+          const str = "..."
+          const res2 = await createGroup({title: body.category, description: str});
+          const groupId = res2.data.groupId
+          console.log("Categoria criada com sucesso!");
+          console.log(res2);
+          if (userId && groupId && eventId) {
+            // Cria um objeto Categoria-Usuário
+            const relationBody = {
+              userId: Number(userId),
+              groupId: Number(groupId),
+              role: "owner"};
+            const relation2Body = {
+              eventId: Number(eventId),
+              groupId: Number(groupId)};
+            await createUserGroup(relationBody);
+            await createEventGroup(relation2Body);
+          }
+        }
       }
-
-      alert("Evento criado com sucesso!");
+      alert("Evento e participante criados com sucesso!");
       navigate("/eventos");
     } catch (error) {
       console.error(error);
     }
   };
+
 
   const handleOpenModalSelectImage = () => {
     setOpenImageSelector(true);

@@ -10,16 +10,10 @@ import {
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../services/user/login';
+import { ErrorMessages } from '../../../../api/errors/ErrorMessages';
     
   export default function Login() {
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const token = localStorage.getItem('userId');
-        if(token){
-            navigate('/eventos');
-        }
-    }, []);
 
     async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -38,7 +32,12 @@ import { login } from '../../services/user/login';
         }catch(err : any){
             const response = err.response;
             console.log(response)
+
+            if (response?.data === ErrorMessages.LoginError.alreadyLoggedIn) {
+                navigate('/eventos');
+            } else {
             alert(response.data)
+            }
         }
     }
 
