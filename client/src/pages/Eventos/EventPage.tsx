@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import SearchBar from './Components/SearchBar';
 import Filters from './Components/Filter';
 import EventList from './Components/EventList';
@@ -400,12 +399,26 @@ const EventPage = () => {
                 <TextField
                   label="Nome"
                   value={user?.name}
+                  onChange={(e) => setUser(
+                    { 
+                      email: user?.email || "",
+                      name: e.target.value,
+                      role: user?.role || "",
+                      userId: user?.userId || 0
+                    })}
                   fullWidth
                   sx={{ marginTop: 2 }}
                 />
 
                 <TextField
                   label="Email"
+                  onChange={(e) => setUser(
+                    { 
+                      email: e.target.value,
+                      name: user?.name || "",
+                      role: user?.role || "",
+                      userId: user?.userId || 0
+                    })}
                   value={user?.email}
                   fullWidth
                 />
