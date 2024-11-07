@@ -28,7 +28,7 @@ const EventPage = () => {
   const [eventData, setEventData] = useState<Event[]>([]); 
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState<string | null>(null); 
-
+  const [openSearchList, setOpenSearchList] = useState(false);
   const [logged, setLogged] = useState(false);   
 
   const navigate = useNavigate();
@@ -307,8 +307,14 @@ const EventPage = () => {
                         divider
                         sx={{
                           '&:hover': {
+                            cursor: 'pointer',
                             backgroundColor: 'rgba(0, 0, 0, 0.1)',
                           },
+                        }}
+                        onClick={() => {
+                          setSearchQuery(event.title);
+                        
+                          handleOpenModal(event)
                         }}
                       >
                       <ListItemText primary={event.title}  sx={{ '& .MuiTypography-root': { fontSize: '16px' } }}/> 
