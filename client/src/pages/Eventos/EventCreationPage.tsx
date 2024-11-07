@@ -89,7 +89,7 @@ const EventCreationPage = () => {
             };
             
             await createParticipant(participantBody);
-            if(X){
+            if(X.data.title != body.category){
               const str = "..."
               const res2 = await createGroup({title: body.category, description: str});
               const groupId = res2.data.groupId
