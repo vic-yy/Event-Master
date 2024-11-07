@@ -3,6 +3,16 @@ import prisma from '../../../../database/prismaClient';
 import { QueryError } from '../../../../errors/QueryError';
 
 class EventService {
+    async getEventByTitle(eventTitle: string) {
+        return await prisma.event.findMany({
+            where: {
+                title: {
+                    contains: eventTitle
+                },
+            },
+        });
+    }
+
     async createEvent(body: {title: string, description: string, location: string, date: Date, image: string, time: string, price: string, category: string, organizer: string}) {
         const newEvent = await prisma.event.create({
             data: {
@@ -19,11 +29,6 @@ class EventService {
         if (!event) {
             throw new QueryError('eventNotFound');
         }
-        return event;
-    }
-
-    async getEventByTitle(title: string) {
-        const event = await prisma.event.findFirst({ where: { title } });
         return event;
     }
     
