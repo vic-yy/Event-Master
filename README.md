@@ -2,7 +2,7 @@
 
 <h2 align='center'> Event Master </h2>
 
-### Membros da equipe (Papel) [Mátricula]:
+### Membros da equipe (Papel) [Matrícula]:
 
 - Victor Yuji Yano (Full) [2022043337]
 
