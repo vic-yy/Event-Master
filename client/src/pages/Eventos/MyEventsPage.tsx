@@ -88,6 +88,8 @@ const EventPage = () => {
     const matchesEndDate = endDate ? eventDate <= new Date(endDate) : true;
     const matchesCategory = activeCategory === 'All' || activeCategory === '' || event.organizer === activeCategory;
 
+    event.image = '../' + event.image;
+
     return matchesType && matchesTime && matchesStartDate && matchesEndDate && matchesCategory;
   });
 
