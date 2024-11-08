@@ -9,6 +9,8 @@ import { Event } from '../types/Event';
 import { useNavigate } from 'react-router-dom';
 import { getParticipantById } from '../../../services/participant/get';
 import { createParticipant } from "../../../services/participant/create";
+import { IconButton, Alert, Box } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface EventDetailsModalProps {
     open: boolean;
@@ -71,28 +73,61 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ open, onClose, ev
     navigate(`/eventos/editar/${event.eventId}`);
   };
 
+  const parsedDate = new Date(event.date);
+  const day = parsedDate.getUTCDate();
+  const month = parsedDate.getUTCMonth() + 1;
+  const year = parsedDate.getUTCFullYear();
+  const formattedDate = `${day}/${month}/${year}`;
+  
+  const timeString = event.time;
+  const [hours, minutes] = timeString.split(':');
+  const formattedTime = `${hours}h${minutes}min`;
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{event.title}</DialogTitle>
+
+      <DialogTitle variant="h5" style={{ textAlign: 'center', padding: '0px', marginTop: '20px' }}>
+                
+          <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#333', marginBottom: 1 }}>
+            {event.title}
+          </Typography>
+        
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+          }}
+          >
+          <CloseIcon sx={{ color: 'black' }} />
+        </IconButton>
+
+      </DialogTitle>
+
       <DialogContent>
         <CardMedia
           component="img"
-          height="200"
           image={event.image}
           alt={event.title}
-          style={{ borderRadius: '8px', marginBottom: '16px' }}
+          style={{
+            borderRadius: '8px',
+            marginBottom: '16px',
+            objectFit: 'cover'
+          }}
         />
         <Typography variant="body1" gutterBottom>
-          <strong>Horário:</strong> {event.time}
+          <strong>Horário:</strong> {formattedTime}
         </Typography>
         <Typography variant="body1" gutterBottom>
           <strong>Local:</strong> {event.location}
         </Typography>
         <Typography variant="body1" gutterBottom>
-          <strong>Data:</strong> {event.date}
+          <strong>Data:</strong> {formattedDate}
         </Typography>
         <Typography variant="body1" gutterBottom>
-          <strong>Preço:</strong> {event.price}
+          <strong>Preço:</strong> R$ {event.price}
         </Typography>
         <Typography variant="body1" gutterBottom>
           <strong>Categoria:</strong> {event.category}
@@ -103,40 +138,66 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ open, onClose, ev
         <Typography variant="body2" color="textSecondary" style={{ marginTop: '16px', marginBottom: '16px' }}>
           {event.description}
         </Typography>
+                  
         {!pok &&
         <Button 
           variant="contained" 
           color="primary" 
           fullWidth 
           onClick={handleSubscribe}
-          sx={{ marginTop: '16px' }}
+          sx={{
+            marginTop:'5px',
+            backgroundColor: "#FFD700",
+            "&:hover": {
+              backgroundColor: "#FFBF00",
+            },
+            padding: '5px',         
+            borderRadius: '5px' 
+          }}
         >
           Inscrever-se
         </Button>}
-        {pok &&
-        <Button 
-          variant="contained" 
-          color="primary" 
-          fullWidth 
-          sx={{ marginTop: '16px' }}
-        >
-          Inscrito
-        </Button>}
+    
+        {pok && (
+          <Box 
+            sx={{ 
+              backgroundColor: '#f0f4f8', 
+              padding: '12px', 
+              borderRadius: '8px', 
+              marginTop: '16px', 
+              display: 'flex', 
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center' 
+            }}
+          >
+            <Typography variant="body1" color="textPrimary">
+              🎉 Você já está inscrito neste evento!
+            </Typography>
+          </Box>
+        )}
+
         {ok &&
         <Button 
           onClick={handleEdit} 
           color="primary" 
           variant='contained'
           fullWidth
-          sx={{ marginTop: '16px' }}
+          sx={{
+            marginTop:'16px',
+            backgroundColor: "#333333",
+            "&:hover": {
+              backgroundColor: "#000",
+            },
+            padding: '5px',         
+            borderRadius: '5px' 
+          }}
         >
-          
           Editar
         </Button>}
+
       </DialogContent>
-      <Button onClick={onClose} color="primary" sx={{ margin: '16px' }}>
-        Fechar
-      </Button>
+
     </Dialog>
   );
 };

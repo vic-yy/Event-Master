@@ -18,7 +18,12 @@ type EventCardProps = {
   onOpenModal: () => void; 
 };
 
+
 const EventCard: React.FC<EventCardProps> = ({ image, title, time, location, date, price, category, organizer, onOpenModal }) => {
+
+  const timeStringModal = time;
+  const [hours, minutes] = timeStringModal.split(':');
+  const formattedTimeModal = `${hours}h${minutes}min`;
 
   return (
     <Card
@@ -55,7 +60,7 @@ const EventCard: React.FC<EventCardProps> = ({ image, title, time, location, dat
             📍 {location}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center' }}>
-            🕒 {time}
+            🕒 {formattedTimeModal}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center' }}>
             📂 {category}

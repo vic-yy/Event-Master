@@ -366,21 +366,9 @@ const EventPage = () => {
 
               <DialogTitle variant="h5" style={{ textAlign: 'center', padding: '0px', marginTop: '20px' }}>
                 
-                <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                  <Box 
-                    className="login-logo"
-                    component="img" 
-                    src="/src/assets/logo.jpeg"
-                    sx={{
-                        width: '100px', 
-                        height: '100px' 
-                    }}
-                  />
-
-                  <Typography variant="h4" sx={{ marginBottom: '50px', color: 'black'}}>
-                    Meu perfil
-                  </Typography>
-                </Box>
+                <Typography variant="h4" sx={{ marginBottom: '30px', color: 'black'}}>
+                  Meu perfil
+                </Typography>
 
                 <Typography variant="body1" color="textSecondary" sx={{ marginTop: '0px', marginBottom: '20px', color: 'black' }}>
                   Edite suas informações pessoais abaixo:

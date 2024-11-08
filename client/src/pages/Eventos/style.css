@@ -4,7 +4,7 @@
 }
 
 .search-bar {
-  max-width: 1050px; 
+  max-width: 800px; 
   margin: 0 auto;
   display: flex;
   align-items: center;  
@@ -63,12 +63,13 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
 }
+
 .event-card {
   display: flex;
   flex-direction: column;
   padding: 12px;
   width: 250px;
-  min-height: 350px; /* Ensures a consistent card height */
+  min-height: 350px;
   border-radius: 8px;
   overflow: hidden;
   background-color: #ffffff;
@@ -88,7 +89,6 @@
     object-fit: cover;
     display: block;
 }
-
 
 .event-details {
     padding: 8px 0;
@@ -114,19 +114,16 @@
     margin: 4px 0;
 }
 
-
 .event-price {
     font-weight: bold;
     color: #3e9f7b;
 }
-
 
 .event-date,
 .event-organizer {
     color: #999;
     font-size: 13px;
 }
-
 
 .event-time,
 .event-location,
