@@ -64,7 +64,7 @@ const EventCard: React.FC<EventCardProps> = ({ image, title, time, location, dat
             {new Date(date).toLocaleDateString()}
           </Typography>
           <Typography variant="body2" sx={{ fontWeight: 'bold', color: '#3e9f7b' }}>
-            {price}
+            R$ {price}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ color: '#999', fontSize: 13 }}>
             Organizador: {organizer}
@@ -77,7 +77,14 @@ const EventCard: React.FC<EventCardProps> = ({ image, title, time, location, dat
           color="primary" 
           fullWidth
           onClick={onOpenModal}
-          sx={{ backgroundColor: '#1976d2' }}
+          sx={{ 
+            backgroundColor: "#333333",
+            "&:hover": {
+              backgroundColor: "#000",
+            },
+            padding: '5px',         
+            borderRadius: '5px' 
+          }}
         >
           Mais Detalhes
         </Button>

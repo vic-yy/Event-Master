@@ -6,9 +6,9 @@ import { Event } from './types/Event';
 import EventDetailsModal from './Components/EventDetailsModal'; 
 import './style.css';
 import { getMyself } from '../../services/user/me';
-
+import FloatingButton from '../Eventos/Components/FloatingButton';
 import { List, ListItem, ListItemText, Box, Typography, TextField, InputAdornment, IconButton, Divider, Dialog, DialogContent, DialogTitle, Button } from '@mui/material';
-
+import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import { logout } from '../../services/user/logout';
@@ -27,7 +27,6 @@ const EventPage = () => {
   const [eventData, setEventData] = useState<Event[]>([]); 
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState<string | null>(null); 
-  const [openSearchList, setOpenSearchList] = useState(false);
   const [logged, setLogged] = useState(false);   
 
   const navigate = useNavigate();
@@ -105,7 +104,6 @@ const EventPage = () => {
     role: string;
   };
 
-  // Edit user data
   const [user, setUser] = useState<UserMySelfProps | null>(null);
 
   const handleOpenDialog = async () => {
@@ -235,7 +233,7 @@ const EventPage = () => {
             }}
           />
 
-          <Typography variant="h6">
+          <Typography variant="h6" sx={{ color: "black" }}>
             Event Master
           </Typography>
           
@@ -284,10 +282,10 @@ const EventPage = () => {
               {searchQuery && (
                 <Box
                   sx={{
-                      position: 'absolute',       // Makes it float above the content
-                      top: '70px',                // Adjust the top value to position below the search bar
-                      left: '51.3%',                // Center horizontally
-                      transform: 'translateX(-50%)', // Proper centering on the page
+                      position: 'absolute',      
+                      top: '70px',                
+                      left: '51.3%',              
+                      transform: 'translateX(-50%)', 
                       borderRadius: 2,
                       border: "1px solid #ddd",
                       backgroundColor: "#fff",
@@ -357,19 +355,34 @@ const EventPage = () => {
 
             <Dialog
               maxWidth="sm"
-              fullWidth
               PaperProps={{
                 sx: {
                   borderRadius: '16px',
-                  width: '500px ',
+                  width: '450px ',
                 },
               }}
               open={openDialog} 
               onClose={handleCloseDialog}>
-              
-              <DialogTitle variant="h5" style={{ textAlign: 'center', padding: '40px' }}>
-                Meu perfil
-                <Typography variant="body1" color="textSecondary" sx={{ marginTop: 1 }}>
+
+              <DialogTitle variant="h5" style={{ textAlign: 'center', padding: '0px', marginTop: '20px' }}>
+                
+                <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                  <Box 
+                    className="login-logo"
+                    component="img" 
+                    src="/src/assets/logo.jpeg"
+                    sx={{
+                        width: '100px', 
+                        height: '100px' 
+                    }}
+                  />
+
+                  <Typography variant="h4" sx={{ marginBottom: '50px', color: 'black'}}>
+                    Meu perfil
+                  </Typography>
+                </Box>
+
+                <Typography variant="body1" color="textSecondary" sx={{ marginTop: '0px', marginBottom: '20px', color: 'black' }}>
                   Edite suas informações pessoais abaixo:
                 </Typography>
 
@@ -380,10 +393,9 @@ const EventPage = () => {
                     position: 'absolute',
                     right: 8,
                     top: 8,
-                    color: "#000"
                   }}
                   >
-                  {/* <CloseIcon /> */}
+                  <CloseIcon sx={{ color: 'black' }} />
                 </IconButton>
               </DialogTitle>
 
@@ -391,11 +403,31 @@ const EventPage = () => {
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 2,
-                  padding: '40px 20px 40px 20px',
+                  gap: 1,
+                  padding: '0px 20px 40px 20px',
                 }}
               >
-              
+                <IconButton
+                    onClick={handleCloseDialog}
+                    sx={{
+                      position: 'absolute',
+                      top: 8,
+                      right: 8,
+                    }}
+                  >
+                    <CloseIcon sx={{ color: 'black' }}/>
+                  </IconButton>
+                <Box
+                  component="img"
+                  src="./src/assets/default_profile_picture.png"
+                  sx={{
+                    width: 160,
+                    height: 160,
+                    marginBottom: 2,
+                    alignSelf: "center"
+                  }}
+                />
+
                 <TextField
                   label="Nome"
                   value={user?.name}
@@ -407,7 +439,6 @@ const EventPage = () => {
                       userId: user?.userId || 0
                     })}
                   fullWidth
-                  sx={{ marginTop: 2 }}
                 />
 
                 <TextField
@@ -427,20 +458,20 @@ const EventPage = () => {
                   variant="contained"
                   color="primary"
                   fullWidth
-                  sx={{ marginTop: 2 }}
                   onClick={handleUpdateAccount}
+                  sx={{
+                    marginTop: '12px',
+                    borderRadius: '5px',
+                    padding: '5px',
+                    fontWeight: 'bold',
+                    fontSize: '16px',
+                    backgroundColor: '#228B22',
+                    '&:hover': {
+                        backgroundColor: '#006400',
+                    }
+                    }}
                 >
-                  Salvar
-                </Button>
-
-                <Button
-                  variant="contained"
-                  color="error"
-                  fullWidth
-                  sx={{ marginTop: 2 }}
-                  onClick={handleCloseDialog}
-                >
-                  Voltar 
+                  Salvar alterações
                 </Button>
 
               </DialogContent>
@@ -507,6 +538,9 @@ const EventPage = () => {
         </div>
       </Box>
       )}
+
+      <FloatingButton />
+    
     </Box>
   );
 };

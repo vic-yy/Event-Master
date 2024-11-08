@@ -7,7 +7,7 @@ import {
     Typography,
     Grid
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../services/user/login';
 import { ErrorMessages } from '../../../../api/errors/ErrorMessages';
@@ -134,7 +134,7 @@ import { ErrorMessages } from '../../../../api/errors/ErrorMessages';
                     <Typography className="login-header"
                         variant="h4"
                         sx={{
-                            color: '#515151',
+                            color: '#333333',
                             marginBottom: '30px'
                         }}
                         >
@@ -203,9 +203,9 @@ import { ErrorMessages } from '../../../../api/errors/ErrorMessages';
                                 padding: '20px 50px',
                                 fontWeight: 'bold',
                                 fontSize: '1rem',
-                                backgroundColor: '#C4C4C4',
+                                backgroundColor: '#333333',
                                 '&:hover': {
-                                    backgroundColor: '#515151',
+                                    backgroundColor: '#000',
                                 }
                             }}
                             >
@@ -216,10 +216,11 @@ import { ErrorMessages } from '../../../../api/errors/ErrorMessages';
                             <Link className="link-to-sign-up-page"
                                 to="/cadastro"
                                 style={{ 
-                                    textDecoration:'none', color: '#000'
+                                    textDecoration:'underline', 
+                                    color: '#000'
                                 }}
                                 >
-                            Ainda não possui uma conta? Cadastre-se agora
+                            Ainda não possui uma conta? Cadastre-se agora!
                             </Link>
                         </Typography>
                     
