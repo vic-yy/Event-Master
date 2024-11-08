@@ -58,14 +58,12 @@ export default function Cadastro() {
               <Box
                 sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}
               >
-                <Box className="circle"></Box>
-                <Typography variant="h4" className="form-header">
+                <Typography variant="h4" className="form-header" sx={{color: "#333333"}}>
                     Cadastro
                 </Typography>
               </Box>
-              <Box className="form-fields">
+              <Box className="form-fields" sx={{marginTop: '25px'}}>
                   <Box>
-                    <Typography variant="inherit" className="subheader">Nome: </Typography>
                     <Box className="cluster">
                       <TextField label="Primeiro nome" variant="outlined" name="firstName" fullWidth />
                       <TextField label="Último nome" variant="outlined" name="lastName" fullWidth />
@@ -74,7 +72,6 @@ export default function Cadastro() {
                   <TextField label="Email" variant="outlined" type="email" name="email" fullWidth />
                   
                   <Box>
-                    <Typography variant="inherit" className="subheader">Senha: </Typography>
                     <Box className="cluster">
                       <TextField 
                           label="Senha" 
@@ -109,7 +106,7 @@ export default function Cadastro() {
               label="Mostrar senha"
             />
           </Box>
-          <Box className="submit-final">
+          <Box className="submit-final" sx={{ marginTop: '0px' }}>
             <Button
               variant="contained"
               className="submit-btn"
@@ -119,9 +116,9 @@ export default function Cadastro() {
                 padding: "20px 50px",
                 fontWeight: "bold",
                 fontSize: "1rem",
-                backgroundColor: "#C4C4C4",
+                backgroundColor: "#333333",
                 "&:hover": {
-                  backgroundColor: "#515151",
+                  backgroundColor: "#000",
                 },
               }}
             >
@@ -137,7 +134,7 @@ export default function Cadastro() {
                   color: "#000",
                 }}
               >
-                Já possui uma conta? Entre
+                Já possui uma conta? Entre agora!
               </Link>
             </Typography>
           </Box>
