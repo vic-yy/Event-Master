@@ -22,6 +22,7 @@ const EventPage = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
+  const [categories, setCategories] = useState<string[]>(['All', 'DCC', 'ICEX', 'CC', 'SI', 'MatComp', 'Eng Sistemas', 'Eng Elétrica']);
   const [openModal, setOpenModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [eventData, setEventData] = useState<Event[]>([]); 
@@ -91,9 +92,9 @@ const EventPage = () => {
     const eventDate = new Date(event.date);
     const matchesStartDate = startDate ? eventDate >= new Date(startDate) : true;
     const matchesEndDate = endDate ? eventDate <= new Date(endDate) : true;
-    const matchesCategory = activeCategory === 'All' || activeCategory === '' || event.organizer === activeCategory;
+    const matchesCategory = activeCategory === 'All' || (categories.includes(activeCategory) && event.category === activeCategory);
 
-    return matchesType && matchesTime && matchesStartDate && matchesEndDate && matchesCategory;
+    return matchesType && matchesTime && matchesStartDate && matchesEndDate && matchesCategory && matchesCategory;
   });
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -169,6 +170,11 @@ const EventPage = () => {
       };
       fetchEvents();
   }, [debouncedQuery]);
+
+  const handleCategoriesChange = (newCategories: string[]) => {
+    setCategories(newCategories);
+  };
+  
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchQuery(event.target.value);
@@ -489,6 +495,7 @@ const EventPage = () => {
           <Filters
             activeCategory={activeCategory}
             setActiveCategory={setActiveCategory}
+            onCategoriesChange={handleCategoriesChange}
           />
           {loading ? (
             <p>Carregando eventos...</p>

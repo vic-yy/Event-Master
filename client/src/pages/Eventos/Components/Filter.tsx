@@ -5,10 +5,11 @@ import { getGroups, IGroup } from '../../../services/group/get';
 interface FiltersProps {
   activeCategory: string;
   setActiveCategory: (category: string) => void;
+  onCategoriesChange: (categories: string[]) => void; // New prop
 }
 
-const Filters: React.FC<FiltersProps> = ({ activeCategory, setActiveCategory }) => {
-  const defaultCategories = ['DCC', 'ICEX', 'CC', 'SI', 'MatComp', 'Eng Sistemas', 'Eng Elétrica'];
+const Filters: React.FC<FiltersProps> = ({ activeCategory, setActiveCategory, onCategoriesChange }) => {
+  const defaultCategories = ['All', 'DCC', 'ICEX', 'CC', 'SI', 'MatComp', 'Eng Sistemas', 'Eng Elétrica'];
   const [categories, setCategories] = useState<string[]>(defaultCategories);
   const [subscribedGroupIds, setSubscribedGroupIds] = useState<number[]>([]);
   const [groups, setGroups] = useState<IGroup[]>([]);
@@ -31,18 +32,34 @@ const Filters: React.FC<FiltersProps> = ({ activeCategory, setActiveCategory }) 
   const handleCloseGroupModal = () => setOpenGroupModal(false);
 
   const handleSubscribe = (groupId: number) => {
-    const subscribedGroup = groups.find(group => group.id === groupId);
-    if (subscribedGroup && !categories.includes(subscribedGroup.title)) {
-      setCategories([...categories, subscribedGroup.title]);
-      setSubscribedGroupIds([...subscribedGroupIds, groupId]);
+    const subscribedGroup = groups.find(group => group.groupId === groupId);
+    if (subscribedGroup) {
+      setCategories(prevCategories => {
+        const updatedCategories = !prevCategories.includes(subscribedGroup.title)
+          ? [...prevCategories, subscribedGroup.title]
+          : prevCategories;
+        
+        onCategoriesChange(updatedCategories); // Notify parent of new categories
+        return updatedCategories;
+      });
+      setSubscribedGroupIds(prevIds => {
+        if (!prevIds.includes(groupId)) {
+          return [...prevIds, groupId];
+        }
+        return prevIds;
+      });
     }
   };
 
   const handleUnsubscribe = (groupId: number) => {
-    const unsubscribedGroup = groups.find(group => group.id === groupId);
+    const unsubscribedGroup = groups.find(group => group.groupId === groupId);
     if (unsubscribedGroup) {
-      setCategories(categories.filter(category => category !== unsubscribedGroup.title));
-      setSubscribedGroupIds(subscribedGroupIds.filter(id => id !== groupId));
+      setCategories(prevCategories => {
+        const updatedCategories = prevCategories.filter(category => category !== unsubscribedGroup.title);
+        onCategoriesChange(updatedCategories); // Notify parent of category removal
+        return updatedCategories;
+      });
+      setSubscribedGroupIds(prevIds => prevIds.filter(id => id !== groupId));
     }
   };
 

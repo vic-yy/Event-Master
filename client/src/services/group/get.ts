@@ -6,7 +6,7 @@ export async function getGroupByTitle(title: string) {
 
 
 export interface IGroup {
-  id: number;
+  groupId: number;
   title: string;
   description: string;
 }

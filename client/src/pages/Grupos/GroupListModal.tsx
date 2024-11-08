@@ -8,6 +8,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import { IGroup } from '../../services/group/get';
 
 interface GroupListModalProps {
@@ -25,9 +26,8 @@ const GroupListModal: React.FC<GroupListModalProps> = ({
   groups,
   subscribedGroupIds,
   onSubscribe,
-  onUnsubscribe
+  onUnsubscribe,
 }) => {
-
   const handleToggleSubscription = (groupId: number) => {
     if (subscribedGroupIds.includes(groupId)) {
       onUnsubscribe(groupId);
@@ -42,22 +42,21 @@ const GroupListModal: React.FC<GroupListModalProps> = ({
       <DialogContent>
         <List>
           {groups.map((group) => (
-            <ListItem
-              key={group.id}
-              sx={{ display: 'flex', justifyContent: 'space-between' }}
-            >
+            <ListItem key={`group-${group.groupId}`}>
               <ListItemAvatar>
                 <Avatar src={group.description} alt={`${group.title} icon`} />
               </ListItemAvatar>
               <ListItemText primary={group.title} />
-              <Button
-                variant="outlined"
-                color={subscribedGroupIds.includes(group.id) ? 'secondary' : 'primary'}
-                onClick={() => handleToggleSubscription(group.id)}
-                sx={{ minWidth: '100px' }}
-              >
-                {subscribedGroupIds.includes(group.id) ? 'Desinscrever' : 'Inscrever'}
-              </Button>
+              <ListItemSecondaryAction>
+                <Button
+                  variant="outlined"
+                  color={subscribedGroupIds.includes(group.groupId) ? 'secondary' : 'primary'}
+                  onClick={() => handleToggleSubscription(group.groupId)}
+                  sx={{ minWidth: '100px' }}
+                >
+                  {subscribedGroupIds.includes(group.groupId) ? 'Desinscrever' : 'Inscrever'}
+                </Button>
+              </ListItemSecondaryAction>
             </ListItem>
           ))}
         </List>
