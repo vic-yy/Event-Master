@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 interface SearchBarProps {
   eventType: string;
@@ -92,10 +93,23 @@ const SearchBar: React.FC<SearchBarProps> = ({
         </div>
       </div>
 
-      {/* Botões */}
-      <button className="show-button" onClick={handleToggleEvents}>
-        {location.pathname === '/eventos/meus_eventos' ? 'Mostrar Todos' : 'Mostrar Meus Eventos'}
-      </button>
+      <Button 
+          variant="contained" 
+          color="primary" 
+          fullWidth
+          onClick={handleToggleEvents}
+          sx={{
+            height: '60px',
+            backgroundColor: "#333333",
+            "&:hover": {
+              backgroundColor: "#000",
+            },
+            padding: '5px',         
+            borderRadius: '5px' 
+          }}
+        >
+          {location.pathname === '/eventos/meus_eventos' ? 'TODOS OS EVENTOS' : 'MINHAS INSCRIÇÕES'}
+        </Button>
 
     </div>
   );

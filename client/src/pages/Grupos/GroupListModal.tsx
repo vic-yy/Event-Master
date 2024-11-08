@@ -10,6 +10,8 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import { IGroup } from '../../services/group/get';
+import { Typography, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface GroupListModalProps {
   open: boolean;
@@ -38,7 +40,24 @@ const GroupListModal: React.FC<GroupListModalProps> = ({
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Grupos Disponíveis</DialogTitle>
+      <DialogTitle variant="h5" style={{ textAlign: 'center', padding: '0px', marginTop: '20px' }}>
+                
+        <Typography variant="h5" sx={{ marginBottom: '30px', color: 'black'}}>
+          Grupos disponíveis:
+        </Typography>
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+          }}
+          >
+          <CloseIcon sx={{ color: 'black' }} />
+        </IconButton>
+      </DialogTitle>
+
       <DialogContent>
         <List>
           {groups.map((group) => (
@@ -48,22 +67,29 @@ const GroupListModal: React.FC<GroupListModalProps> = ({
               </ListItemAvatar>
               <ListItemText primary={group.title} />
               <ListItemSecondaryAction>
+
                 <Button
                   variant="outlined"
-                  color={subscribedGroupIds.includes(group.groupId) ? 'secondary' : 'primary'}
                   onClick={() => handleToggleSubscription(group.groupId)}
-                  sx={{ minWidth: '100px' }}
+                  sx={{
+                    color: "#ffffff",
+                    backgroundColor: "#333333",
+                    "&:hover": {
+                      backgroundColor: "#000",
+                    },
+                    padding: '5px',         
+                    borderRadius: '5px' 
+                  }}
                 >
-                  {subscribedGroupIds.includes(group.groupId) ? 'Desinscrever' : 'Inscrever'}
+                  {subscribedGroupIds.includes(group.groupId) ? 'Remover inscrição' : 'Inscrição'}
                 </Button>
+
               </ListItemSecondaryAction>
             </ListItem>
           ))}
         </List>
       </DialogContent>
-      <Button onClick={onClose} color="primary" sx={{ margin: '16px' }}>
-        Fechar
-      </Button>
+
     </Dialog>
   );
 };
