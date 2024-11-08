@@ -1,4 +1,4 @@
-Nome provisório do projeto:
+Nome do projeto:
 Event Master
 
 Membros da equipe (Papel):
@@ -11,20 +11,21 @@ Membros da equipe (Papel):
 
 -Gustavo Chaves Ferreira (Full) [2022043329]
 
-Objetivo geral: criar um aplicativo de agendamento e gerenciamento dinâmico, público e privado, de eventos e rotinas.
+Objetivo geral: Desenvolver um aplicativo para agendamento e gerenciamento dinâmico, público e privado, de eventos.
 
 Backlog do produto:
-1. Criar, editar, deletar e listar usuários.
-2. Criar, editar, deletar, listar e participar de eventos.
-3. Publicar e buscar eventos com queries e filtros (mecanismo de busca completo).
-4. Promover e demitir administradores, expulsar e readmitir usuários.
-5. Privar eventos, solicitar e permitir entrada em eventos privados.
-6. Personalizar evento com envio de fotos e vídeos.
-7. Personalizar perfil com foto e descrição.
-8. Enviar, editar, deletar e listar mensagens entre usuários num evento.
-9. Enviar, editar, deletar e listar mensagens entre usuários fora de um evento.
-10. Redirecionar e compartilhar mensagens e eventos em eventos e conversas privadas.
-11. Buscar mensagens em uma ou todas as conversas privadas e eventos.
+1. Como usuário, eu quero poder criar, editar e deletar meus perfil.
+2. Como usuário, eu quero personalizar meu perfil com foto e descrição para me apresentar aos demais.
+3. Como usuário, eu quero poder criar, editar, deletar, listar e participar de eventos.
+4. Como usuário, eu quero poder buscar eventos com filtros para encontrá-los.
+5. Como usuário, eu quero visualizar eventos e buscar eventos específicos por meio de query.
+6. Como usuário, eu quero poder visualizar grupos (categorias) dos eventos e filtrá-los por meio deles.
+7. Como participante de evento, eu quero me inscrever no evento.
+8. Como administrador, eu quero promover e demitir outros administradores, expulsar e readmitir usuários.
+9. Como organizador de eventos, eu quero criar eventos públicos e permitir que usuários se inscrevam.
+10. Como organizador de eventos, eu quero personalizar o evento com detalhes e fotos para enriquecer a experiência.
+11. Redirecionar e compartilhar mensagens e eventos em eventos e conversas privadas.
+12. Buscar mensagens em uma ou todas as conversas privadas e eventos.
 
 Faremos as quatro primeiras no nosso primeiro sprint.
 
