@@ -214,7 +214,7 @@ const EventEditPage = () => {
           component="form"
           onSubmit={handleSubmit}
           sx={{
-            backgroundColor: 'rgba(255, 255, 255, 0.9)', // Semi-transparent background
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
             borderRadius: '16px',
             padding: '24px',
             boxShadow: '0 8px 16px rgba(0, 0, 0, 0.3)',
@@ -225,26 +225,22 @@ const EventEditPage = () => {
             gap: 2,
           }}
         >
-          <Box sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 2
-          }}>
-            <Box
-              sx={{
-                width: '30px',
-                height: '30px',
-                borderRadius: '50%',
-                marginBottom: '10px',
-                backgroundColor: '#9c9b9b',  
-              }}
-            >
+          <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+          <Box 
+            className="login-logo"
+            component="img" 
+            src="/src/assets/logo.jpeg"
+            sx={{
+                width: '100px', 
+                height: '100px' 
+            }}
+          />
 
-            </Box>
-            <Typography variant="h4" gutterBottom>
-              Edit Event
-            </Typography>
-          </Box>
+          <Typography variant="h4" gutterBottom>
+            Editando evento...
+          </Typography>
+
+        </Box>
           {event && (
             <>
               <TextField
@@ -277,6 +273,14 @@ const EventEditPage = () => {
                 variant="contained"
                 color="primary"
                 onClick={handleOpenModalSelectImage}
+                sx={{ 
+                  padding: '5px',         
+                  borderRadius: '5px',
+                  backgroundColor: "#333333",
+                  "&:hover": {
+                    backgroundColor: "#000",
+                  },
+                }}
               >
                 Escolher Imagem
               </Button>
@@ -336,20 +340,43 @@ const EventEditPage = () => {
                 required
                 fullWidth
               />
-              <Button variant="contained" color="primary" type="submit">
-                Salvar Mudanças
+              <Button 
+                variant="contained" 
+                color="primary" 
+                type="submit"
+                sx={{
+                  backgroundColor: '#228B22',
+                  '&:hover': {
+                      backgroundColor: '#006400',
+                  }
+                }}
+              >
+                Salvar alterações
               </Button>
+
               <Button
                 variant="contained"
-                style={{ backgroundColor: 'red', color: 'white' }}
                 onClick={handleDeletion}
+                sx={{
+                  backgroundColor: '#DC143C',
+                  '&:hover': {
+                      backgroundColor: '#B22222',
+                  }
+                }}
               >
-                Deletar Evento
+                Deletar evento
               </Button>
+
               <Button
                 variant="contained"
                 color="secondary"
                 onClick={() => navigate("/eventos")}
+                sx={{
+                  backgroundColor: '#6C757D',
+                  '&:hover': {
+                      backgroundColor: '#343A40',
+                  }
+                }}
               >
                 Cancelar
               </Button>

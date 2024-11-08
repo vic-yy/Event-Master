@@ -1,6 +1,4 @@
-import { Button } from '@mui/material';
 import React from 'react';
-import { logout } from '../../../services/user/logout';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 interface SearchBarProps {
@@ -15,8 +13,6 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
-  eventType,
-  setEventType,
   eventTime,
   setEventTime,
   startDate,
@@ -27,10 +23,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleCreate = () => {
-    navigate(`/eventos/criar`);
-  };
-
   const handleToggleEvents = () => {
     if (location.pathname === '/eventos/meus_eventos') {
       navigate(`/eventos`);
@@ -39,31 +31,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
     }
   };
 
-  const eventTypes = [
-    { label: 'Palestra', value: 'Palestra' },
-    { label: 'Competição', value: 'Competição' },
-    { label: 'Festa', value: 'Festa' },
-    { label: 'Evento de Empresa', value: 'Evento de Empresa' },
-    { label: 'Workshop', value: 'Workshop' },
-    { label: 'Seminário', value: 'Seminário' },
-  ];
-
   const timeRanges = [
     { label: 'Manhã (08:00 - 12:00)', value: 'morning' },
     { label: 'Tarde (12:00 - 18:00)', value: 'afternoon' },
     { label: 'Noite (18:00 - 23:00)', value: 'evening' },
   ];
-
-  const leaveHandle = async () => {
-    try {
-      await logout();
-      localStorage.removeItem('userId');
-      alert("Saindo...");
-      navigate('/login');
-    } catch (err: any) {
-      alert("Erro ao sair");
-    }
-  };
 
   return (
     <div className="search-bar">
@@ -121,11 +93,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
       </div>
 
       {/* Botões */}
-      <button className="create-button" onClick={handleCreate}>Criar um Evento</button>
       <button className="show-button" onClick={handleToggleEvents}>
         {location.pathname === '/eventos/meus_eventos' ? 'Mostrar Todos' : 'Mostrar Meus Eventos'}
       </button>
-      <button id="leavebtn" onClick={leaveHandle}>Sair</button>
 
     </div>
   );
