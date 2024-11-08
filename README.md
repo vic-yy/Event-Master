@@ -1,4 +1,4 @@
-# Trabalho de Engenharia de Software
+<h1 align='center'> Trabalho de Engenharia de Software </h2>
 
 <h2 align='center'> Event Master </h2>
 
