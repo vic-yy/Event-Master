@@ -68,7 +68,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   return (
     <div className="search-bar">
       {/* Tipo de evento */}
-      <div className="input-group">
+      {/* <div className="input-group">
         <label>Tipo de evento</label>
         <select 
           value={eventType} 
@@ -81,7 +81,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
             </option>
           ))}
         </select>
-      </div>
+      </div> */}
 
       {/* Horário */}
       <div className="input-group">
